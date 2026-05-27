@@ -1,13 +1,11 @@
 import { useState, FormEvent } from 'react';
-import { ArrowLeft, Sparkles, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function SubmitSubject() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [aiPrompt, setAiPrompt] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
 
   // Form fields
   const [name, setName] = useState('');
@@ -20,22 +18,6 @@ export default function SubmitSubject() {
   const [facebook, setFacebook] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [fullDesc, setFullDesc] = useState('');
-
-  const handleAiGenerate = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!aiPrompt) return;
-    setIsGenerating(true);
-    setTimeout(() => {
-      if (!name) setName('Вашиот Бизнис (генерирано)');
-      setShortDesc('Краток и професионален опис на вашите услуги базиран на вашиот внес.');
-      setFullDesc(
-        'Овој текст е автоматски генериран од AI врз основа на: "' + aiPrompt + '". ' +
-        'Овде би стоел детален, професионален и лекториран текст кој ги опишува услугите, предностите и понудата на компанијата, спремен за објава во Локалниот водич.'
-      );
-      setIsGenerating(false);
-      setAiPrompt('');
-    }, 1500);
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -110,42 +92,6 @@ export default function SubmitSubject() {
               <p className="text-lg text-slate-600">
                 Пополнете ја формата за да го креираме вашиот профил во Локалниот Водич на Gostivarpress.
               </p>
-            </div>
-
-            {/* AI Magic Box */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 relative overflow-hidden shadow-lg shadow-blue-900/10 text-white">
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-white" />
-                  </div>
-                  <h2 className="text-xl font-bold">Генерирајте профил со АИ</h2>
-                </div>
-                <p className="text-blue-100 mb-6 max-w-xl text-sm leading-relaxed">
-                  Немате време да пишувате описи? Само напишете со свои зборови што работите, а нашиот асистент ќе креира професионален текст за вас.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <input
-                    type="text"
-                    value={aiPrompt}
-                    onChange={e => setAiPrompt(e.target.value)}
-                    placeholder="Кратко опишете го вашиот бизнис..."
-                    className="flex-grow px-5 py-3 rounded-xl border-0 focus:outline-none focus:ring-2 focus:ring-white/50 bg-white/10 text-white placeholder-blue-200 backdrop-blur-sm"
-                  />
-                  <button
-                    onClick={handleAiGenerate}
-                    disabled={!aiPrompt || isGenerating}
-                    className="whitespace-nowrap px-6 py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 transition-colors disabled:opacity-90 disabled:bg-slate-200 disabled:text-slate-500 flex justify-center items-center gap-2 shadow-sm"
-                  >
-                    {isGenerating ? 'Се генерира...' : (
-                      <><Sparkles className="w-4 h-4" /> Генерирај</>
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="absolute -right-6 -top-6 opacity-10 pointer-events-none">
-                <Sparkles className="w-48 h-48 text-white" />
-              </div>
             </div>
 
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
