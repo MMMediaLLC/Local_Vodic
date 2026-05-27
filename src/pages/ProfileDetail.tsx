@@ -2,6 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useData } from '../lib/DataContext';
 import { ArrowLeft, Phone, MapPin, Mail, Clock, Globe, Facebook, Share2, Instagram } from 'lucide-react';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
+import SafeImage from '../components/SafeImage';
+import VerificationBadge from '../components/VerificationBadge';
+import VerificationInfo from '../components/VerificationInfo';
 
 function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
   if (profile.googleMapsUrl) return profile.googleMapsUrl;
@@ -59,8 +62,8 @@ export default function ProfileDetail() {
 
           {/* Cover Image */}
           <div className="h-48 md:h-64 bg-slate-200 relative">
-            <img
-              src={profile.coverImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200'}
+            <SafeImage
+              src={profile.coverImage}
               alt="cover"
               className="w-full h-full object-cover"
             />
@@ -69,11 +72,12 @@ export default function ProfileDetail() {
           <div className="px-6 pb-8 relative pt-16 mt-2">
             {/* Logo */}
             <div className={`absolute -top-16 left-6 bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden p-1 ${profile.logoShape === 'horizontal' ? 'w-40 sm:w-48 h-20 sm:h-24 rounded-lg' : 'w-28 h-28 sm:w-32 sm:h-32 rounded-2xl'}`}>
-              {profile.logo ? (
-                <img src={profile.logo} alt={profile.name} className="w-full h-full object-contain p-1" />
-              ) : (
-                <div className="text-4xl font-bold text-slate-300">{profile.name.charAt(0)}</div>
-              )}
+              <SafeImage
+                src={profile.logo}
+                alt={profile.name}
+                className="w-full h-full object-contain p-1"
+                fallback={<div className="text-4xl font-bold text-slate-300">{profile.name.charAt(0)}</div>}
+              />
             </div>
 
             {/* Name + CTA */}
@@ -81,11 +85,9 @@ export default function ProfileDetail() {
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight leading-tight">{profile.name}</h1>
                 <p className="text-slate-500 font-medium text-sm sm:text-base">{profile.category} • {profile.location}</p>
-                {profile.isVerified && (
-                  <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
-                    <div className="w-2 h-2 rounded-full bg-blue-600"></div> Верифицирана објава
-                  </div>
-                )}
+                <div className="mt-3">
+                  <VerificationBadge profile={profile} showLabel={true} />
+                </div>
               </div>
 
               {/* CTA Buttons — секогаш двете */}
@@ -181,23 +183,29 @@ export default function ProfileDetail() {
           </div>
         </div>
 
+        <VerificationInfo profile={profile} />
+
         {/* За нас + Галерија */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">За нас</h2>
           <p className="text-slate-700 leading-relaxed whitespace-pre-line">{profile.fullDescription}</p>
 
-          {profile.galleryImages && profile.galleryImages.length > 0 && (
-            <>
-              <h2 className="text-xl font-bold text-slate-900 mt-10 mb-4 border-b border-slate-100 pb-3">Галерија</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {profile.galleryImages.map((img, idx) => (
-                  <div key={idx} className="aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
-                    <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform" />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+          {(() => {
+            const validImages = (profile.galleryImages || []).filter(img => img?.trim());
+            if (validImages.length === 0) return null;
+            return (
+              <>
+                <h2 className="text-xl font-bold text-slate-900 mt-10 mb-4 border-b border-slate-100 pb-3">Галерија</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {validImages.map((img, idx) => (
+                    <div key={idx} className="aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                      <SafeImage src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform" fallback={null} />
+                    </div>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         {/* Слични профили — исти картички */}
