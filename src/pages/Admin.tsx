@@ -130,6 +130,7 @@ export default function Admin() {
       isFeatured: false,
       isVerified: false,
       isPending: false,
+      verificationStatus: 'unverified',
     };
     setEditingProfile(newProfile);
     setFormData(newProfile);
@@ -381,15 +382,23 @@ export default function Admin() {
                           <option value="horizontal">Хоризонтално (Horizontal)</option>
                         </select>
                       </div>
-                      <div className="md:col-span-2 flex gap-4 pt-2">
-                        <label className="flex items-center gap-2 cursor-pointer">
+                      <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-2 items-start sm:items-center">
+                        <label className="flex items-center gap-2 cursor-pointer shrink-0">
                           <input type="checkbox" checked={formData.isFeatured || false} onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })} className="w-4 h-4 rounded text-blue-600" />
                           <span className="text-sm font-bold text-slate-700">Истакнат (Home Page)</span>
                         </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input type="checkbox" checked={formData.isVerified || false} onChange={e => setFormData({ ...formData, isVerified: e.target.checked })} className="w-4 h-4 rounded text-blue-600" />
-                          <span className="text-sm font-bold text-slate-700">Верификуван</span>
-                        </label>
+                        <div className="flex flex-col gap-1 flex-1 w-full sm:w-auto">
+                          <label className="block text-sm font-bold text-slate-700">Верификација</label>
+                          <select
+                            value={formData.verificationStatus || 'unverified'}
+                            onChange={e => setFormData({ ...formData, verificationStatus: e.target.value as 'unverified' | 'verified' | 'checked_subject' })}
+                            className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                          >
+                            <option value="unverified">Не верифицирано</option>
+                            <option value="verified">Верифициран профил</option>
+                            <option value="checked_subject">Проверен субјект</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
 
