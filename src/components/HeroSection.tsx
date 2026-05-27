@@ -27,7 +27,7 @@ export default function HeroSection() {
               <MapPin className="w-4 h-4" />
               Гостивар и Полог
             </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 uppercase">
+            <h1 className="font-black tracking-tight text-slate-900 mb-6 uppercase whitespace-nowrap text-[clamp(2.8rem,7vw,5.5rem)] leading-none">
               Локален <span className="text-blue-600">водич</span>
             </h1>
             <p className="text-xl sm:text-2xl text-slate-700 font-medium mb-4">
