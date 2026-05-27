@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "GPRESS Локален водич",
+  "description": "Модерен локален директориум за бизниси, услуги, продавници и институции во Гостивар и регионот Полог.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

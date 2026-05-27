@@ -1,30 +1,74 @@
-import { useState } from 'react';
-import { ArrowLeft, Sparkles, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users } from 'lucide-react';
+import { useState, FormEvent } from 'react';
+import { ArrowLeft, Sparkles, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function SubmitSubject() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [aiPrompt, setAiPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  
+
   // Form fields
   const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
+  const [location, setLocation] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [website, setWebsite] = useState('');
+  const [facebook, setFacebook] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [fullDesc, setFullDesc] = useState('');
 
   const handleAiGenerate = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!aiPrompt) return;
-    
     setIsGenerating(true);
-    // Simulate AI generation
     setTimeout(() => {
-      setName(name || 'Вашиот Бизнис (генерирано)');
+      if (!name) setName('Вашиот Бизнис (генерирано)');
       setShortDesc('Краток и професионален опис на вашите услуги базиран на вашиот внес.');
-      setFullDesc('Овој текст е автоматски генериран од AI врз основа на: "' + aiPrompt + '". Овде би стоел детален, професионален и лекториран текст кој ги опишува услугите, предностите и понудата на компанијата, спремен за објава во Локалниот водич на Gostivarpress.');
+      setFullDesc(
+        'Овој текст е автоматски генериран од AI врз основа на: "' + aiPrompt + '". ' +
+        'Овде би стоел детален, професионален и лекториран текст кој ги опишува услугите, предностите и понудата на компанијата, спремен за објава во Локалниот водич.'
+      );
       setIsGenerating(false);
       setAiPrompt('');
     }, 1500);
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError('');
+    try {
+      const res = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          category,
+          location,
+          phone,
+          email,
+          address,
+          website,
+          facebook,
+          shortDescription: shortDesc,
+          fullDescription: fullDesc,
+        }),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setIsSubmitted(true);
+      } else {
+        setSubmitError(json.error || 'Грешка при поднесување. Обидете се повторно.');
+      }
+    } catch {
+      setSubmitError('Серверот не е достапен. Проверете ја врската и обидете се повторно.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -59,7 +103,7 @@ export default function SubmitSubject() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           <div className="lg:col-span-2 space-y-8">
             <div>
               <h1 className="text-4xl font-bold text-slate-900 mb-3 tracking-tight">Внесете податоци за вашиот профил</h1>
@@ -73,30 +117,28 @@ export default function SubmitSubject() {
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                     <Sparkles className="w-4 h-4 text-white" />
+                    <Sparkles className="w-4 h-4 text-white" />
                   </div>
                   <h2 className="text-xl font-bold">Генерирајте профил со АИ</h2>
                 </div>
                 <p className="text-blue-100 mb-6 max-w-xl text-sm leading-relaxed">
-                  Немате време да пишувате описи? Само напишете со свои зборови што работите (на пр: "Имам автосервис во Врапчиште, правам центрирање..."), а нашиот асистент ќе креира професионален текст за вас.
+                  Немате време да пишувате описи? Само напишете со свои зборови што работите, а нашиот асистент ќе креира професионален текст за вас.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={aiPrompt}
-                    onChange={(e) => setAiPrompt(e.target.value)}
-                    placeholder="Кратко опишете го вашиот бизнис..." 
+                    onChange={e => setAiPrompt(e.target.value)}
+                    placeholder="Кратко опишете го вашиот бизнис..."
                     className="flex-grow px-5 py-3 rounded-xl border-0 focus:outline-none focus:ring-2 focus:ring-white/50 bg-white/10 text-white placeholder-blue-200 backdrop-blur-sm"
                   />
-                  <button 
+                  <button
                     onClick={handleAiGenerate}
                     disabled={!aiPrompt || isGenerating}
                     className="whitespace-nowrap px-6 py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 transition-colors disabled:opacity-90 disabled:bg-slate-200 disabled:text-slate-500 flex justify-center items-center gap-2 shadow-sm"
                   >
                     {isGenerating ? 'Се генерира...' : (
-                      <>
-                        <Sparkles className="w-4 h-4" /> Генерирај
-                      </>
+                      <><Sparkles className="w-4 h-4" /> Генерирај</>
                     )}
                   </button>
                 </div>
@@ -106,34 +148,25 @@ export default function SubmitSubject() {
               </div>
             </div>
 
-            <form 
-              action="https://formspree.io/f/YOUR_FORM_ID_HERE"
-              method="POST"
-              encType="multipart/form-data"
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
-              onSubmit={(e) => { 
-                // e.preventDefault(); // Un-comment this and use JS fetch if not using normal form action
-                // setIsSubmitted(true); 
-              }}
-            >
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
               <div className="p-8 space-y-10">
-                
+
                 {/* Основни информации */}
                 <section>
                   <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
                       <Building className="w-4 h-4" />
                     </div>
-                     Основни информации за клиентот
+                    Основни информации за клиентот
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
-                       <label className="block text-sm font-semibold text-slate-700 mb-2">Име на фирмa / субјект <span className="text-red-500">*</span></label>
-                      <input type="text" name="Име_на_фирма" value={name} onChange={e => setName(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Автосервис Ибро" />
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Име на фирмa / субјект <span className="text-red-500">*</span></label>
+                      <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Автосервис Ибро" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Категорија <span className="text-red-500">*</span></label>
-                      <select name="Категорија" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700">
+                      <select value={category} onChange={e => setCategory(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700">
                         <option value="">Избери категорија...</option>
                         <optgroup label="Ударни (Основни) Категории">
                           <option value="Здравство и Медицина">Здравство и Медицина</option>
@@ -153,7 +186,7 @@ export default function SubmitSubject() {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Локација (Град/Село) <span className="text-red-500">*</span></label>
-                      <input type="text" name="Локација" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Гостивар" />
+                      <input type="text" value={location} onChange={e => setLocation(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Гостивар" />
                     </div>
                   </div>
                 </section>
@@ -171,73 +204,74 @@ export default function SubmitSubject() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Телефонски број <span className="text-red-500">*</span></label>
-                      <input type="tel" name="Телефон" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 070 123 456" />
+                      <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 070 123 456" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Електронска пошта (Email)</label>
-                      <input type="email" name="Емаил" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: info@biznis.mk" />
+                      <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: info@biznis.mk" />
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
                         Точна адреса <span className="text-red-500">*</span>
                         <MapPin className="w-4 h-4 text-slate-400" />
                       </label>
-                      <input type="text" name="Адреса" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: ул. Живко Брајковски бр. 10" />
+                      <input type="text" value={address} onChange={e => setAddress(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: ул. Живко Брајковски бр. 10" />
                     </div>
                   </div>
                 </section>
 
-                 <hr className="border-slate-100" />
+                <hr className="border-slate-100" />
 
                 {/* Опис */}
                 <section>
                   <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-3">
-                     <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center">
                       <Globe className="w-4 h-4" />
                     </div>
                     Презентација
                   </h3>
-                   <div className="grid grid-cols-1 gap-6">
+                  <div className="grid grid-cols-1 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Краток опис (мото или една реченица) <span className="text-red-500">*</span></label>
-                      <input type="text" name="Краток_опис" value={shortDesc} onChange={e => setShortDesc(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Вашиот најсигурен партнер за автоделови." />
+                      <input type="text" value={shortDesc} onChange={e => setShortDesc(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Вашиот најсигурен партнер за автоделови." />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Целосен опис (Услуги / Продукти) <span className="text-red-500">*</span></label>
-                      <textarea name="Целосен_опис" rows={5} value={fullDesc} onChange={e => setFullDesc(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Опишете ги детално вашите услуги... Користете го генераторот погоре ако ви треба помош."></textarea>
-                    </div>
-                    
-                    {/* File Uploads */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Визуелно Лого (слика)</label>
-                        <input type="file" name="Лого" accept="image/*" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl border border-slate-200 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white rounded-xl" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Насловна Слика / Фотографија</label>
-                        <input type="file" name="Слика" accept="image/*" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl border border-slate-200 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 bg-white rounded-xl" />
-                      </div>
+                      <textarea rows={5} value={fullDesc} onChange={e => setFullDesc(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Опишете ги детално вашите услуги..."></textarea>
                     </div>
 
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                       <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-2">Веб-страница линк</label>
-                        <input type="url" name="Веб_сајт" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://" />
+                        <input type="url" value={website} onChange={e => setWebsite(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://" />
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-slate-700 mb-2">Facebook / Instagram линк</label>
-                        <input type="url" name="Социјални_мрежи" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://facebook.com/..." />
+                        <input type="url" value={facebook} onChange={e => setFacebook(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://facebook.com/..." />
                       </div>
                     </div>
                   </div>
                 </section>
 
               </div>
+
               <div className="bg-slate-50 px-8 py-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-sm text-slate-500">Сите полиња со <span className="text-red-500">*</span> се задолжителни.</p>
-                <button type="submit" className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 active:scale-95">
-                  Испрати податоци 
-                </button>
+                <div className="flex flex-col items-end gap-2 w-full sm:w-auto">
+                  {submitError && (
+                    <div className="flex items-center gap-2 text-rose-600 bg-rose-50 border border-rose-100 px-4 py-2 rounded-lg text-sm font-medium w-full sm:w-auto">
+                      <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                      {submitError}
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-600/20 active:scale-95"
+                  >
+                    {isSubmitting ? 'Се испраќа...' : 'Испрати податоци'}
+                  </button>
+                </div>
               </div>
             </form>
           </div>
@@ -245,10 +279,8 @@ export default function SubmitSubject() {
           {/* Right Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                 <h3 className="text-xl font-bold text-slate-900 mb-6 tracking-tight">Што добивате во водичот?</h3>
-                
                 <div className="space-y-6">
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
@@ -256,48 +288,37 @@ export default function SubmitSubject() {
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900 mb-1">Огромна видливост</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">
-                        Вашиот бизнис е изложен пред илјадниците дневни читатели на порталот Gostivarpress.mk.
-                      </p>
+                      <p className="text-sm text-slate-600 leading-relaxed">Вашиот бизнис е изложен пред илјадниците дневни читатели на порталот Gostivarpress.mk.</p>
                     </div>
                   </div>
-
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center flex-shrink-0">
                       <Users className="w-5 h-5" />
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900 mb-1">Директни контакти</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">
-                        Потенцијалните клиенти лесно ве наоѓаат и веднаш можат да ве контактираат или посетат.
-                      </p>
+                      <p className="text-sm text-slate-600 leading-relaxed">Потенцијалните клиенти лесно ве наоѓаат и веднаш можат да ве контактираат.</p>
                     </div>
                   </div>
-
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900 mb-1">Доверба и промоција</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">
-                        Професионално претставување кое гради авторитет преку доверлив медиумски бренд.
-                      </p>
+                      <p className="text-sm text-slate-600 leading-relaxed">Професионално претставување кое гради авторитет преку доверлив медиумски бренд.</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-               <div className="bg-slate-900 rounded-2xl p-6 text-white text-center shadow-lg">
-                  <h3 className="font-bold mb-2">Техничка поддршка</h3>
-                  <p className="text-slate-400 text-sm mb-4">
-                    Доколку имате проблем со формата или ви е потребна помош околу текстот, слободно контактирајте нè.
-                  </p>
-                  <a href="mailto:info@gostivarpress.mk" className="inline-block px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">
-                    info@gostivarpress.mk
-                  </a>
-               </div>
-
+              <div className="bg-slate-900 rounded-2xl p-6 text-white text-center shadow-lg">
+                <h3 className="font-bold mb-2">Техничка поддршка</h3>
+                <p className="text-slate-400 text-sm mb-4">Доколку имате проблем со формата или ви е потребна помош, слободно контактирајте нè.</p>
+                <a href="mailto:info@gostivarpress.mk" className="inline-block px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">
+                  info@gostivarpress.mk
+                </a>
+              </div>
             </div>
           </div>
 

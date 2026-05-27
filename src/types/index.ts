@@ -33,6 +33,7 @@ export type Profile = {
   services?: string[];
   isFeatured: boolean;
   isVerified: boolean;
+  isPending?: boolean;
 };
 
 export type Location = {

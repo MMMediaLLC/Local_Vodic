@@ -12,10 +12,26 @@ type DataState = {
 
 type DataContextType = DataState & {
   updateData: (type: keyof DataState, data: any) => Promise<void>;
+  addProfile: (profile: Profile) => Promise<void>;
+  updateProfile: (profile: Profile) => Promise<void>;
+  deleteProfile: (id: string) => Promise<void>;
+  approveProfile: (id: string) => Promise<void>;
   isLoading: boolean;
 };
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
+
+function getAdminToken(): string {
+  return sessionStorage.getItem('adminToken') || '';
+}
+
+function authHeaders(): HeadersInit {
+  const token = getAdminToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [data, setData] = useState<DataState>({
@@ -28,43 +44,98 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initial fetch from backend
     fetch('/api/data')
       .then(res => res.json())
       .then(fetchedData => {
-        // If the backend has no profiles initially, we can seed it with mockData
-        if (fetchedData && Object.keys(fetchedData).length > 0 && fetchedData.profiles && fetchedData.profiles.length > 0) {
+        if (fetchedData?.profiles?.length > 0) {
           setData(fetchedData);
         } else {
-          // Sync default mock data to backend on first load if it's empty
+          // Seed backend со mock data на прво вчитување
           fetch('/api/data', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
+            headers: authHeaders(),
+            body: JSON.stringify(data),
+          }).catch(console.error);
         }
       })
-      .catch(err => console.error("Failed to fetch data, using mock defaults:", err))
+      .catch(err => console.error('Failed to fetch data, using mock defaults:', err))
       .finally(() => setIsLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Bulk update (за категории, локации, контакти, статии)
   const updateData = async (type: keyof DataState, newData: any) => {
     const nextData = { ...data, [type]: newData };
     setData(nextData);
-    
     try {
       await fetch('/api/data', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nextData)
+        headers: authHeaders(),
+        body: JSON.stringify(nextData),
       });
     } catch (err) {
-      console.error("Failed to save data:", err);
+      console.error('Failed to save data:', err);
     }
   };
 
+  // Додај профил
+  const addProfile = async (profile: Profile) => {
+    const res = await fetch('/api/profiles', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(profile),
+    });
+    if (!res.ok) throw new Error((await res.json()).error);
+    setData(prev => ({ ...prev, profiles: [profile, ...prev.profiles] }));
+  };
+
+  // Ажурирај профил
+  const updateProfile = async (profile: Profile) => {
+    const res = await fetch(`/api/profiles/${profile.id}`, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify(profile),
+    });
+    if (!res.ok) throw new Error((await res.json()).error);
+    setData(prev => ({
+      ...prev,
+      profiles: prev.profiles.map(p => p.id === profile.id ? profile : p),
+    }));
+  };
+
+  // Избриши профил
+  const deleteProfile = async (id: string) => {
+    const res = await fetch(`/api/profiles/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    if (!res.ok) throw new Error((await res.json()).error);
+    setData(prev => ({ ...prev, profiles: prev.profiles.filter(p => p.id !== id) }));
+  };
+
+  // Одобри pending профил
+  const approveProfile = async (id: string) => {
+    const res = await fetch(`/api/profiles/${id}/approve`, {
+      method: 'POST',
+      headers: authHeaders(),
+    });
+    if (!res.ok) throw new Error((await res.json()).error);
+    setData(prev => ({
+      ...prev,
+      profiles: prev.profiles.map(p => p.id === id ? { ...p, isPending: false } : p),
+    }));
+  };
+
   return (
-    <DataContext.Provider value={{ ...data, updateData, isLoading }}>
+    <DataContext.Provider value={{
+      ...data,
+      updateData,
+      addProfile,
+      updateProfile,
+      deleteProfile,
+      approveProfile,
+      isLoading,
+    }}>
       {children}
     </DataContext.Provider>
   );
