@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .clip-triangle-down {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+}
