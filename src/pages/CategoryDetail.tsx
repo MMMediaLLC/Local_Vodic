@@ -17,11 +17,13 @@ export default function CategoryDetail() {
     canonicalPath: `/kategorija/${slug}`,
   });
 
-  const profiles = allProfiles.filter(p =>
-    !p.isPending &&
-    (!slug || p.categorySlug === category.slug) &&
-    (!selectedLocation || p.location === selectedLocation)
-  );
+  const profiles = allProfiles
+    .filter(p =>
+      !p.isPending &&
+      (!slug || p.categorySlug === category.slug) &&
+      (!selectedLocation || p.location === selectedLocation)
+    )
+    .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 
   return (
     <div className="bg-slate-50 min-h-screen pb-16">

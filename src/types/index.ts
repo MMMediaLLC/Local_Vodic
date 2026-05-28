@@ -36,6 +36,7 @@ export type Profile = {
   isPending?: boolean;
   verificationStatus?: 'unverified' | 'verified' | 'checked_subject';
   verifiedAt?: string;
+  createdAt?: string;
 };
 
 export type Location = {

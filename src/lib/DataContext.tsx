@@ -134,9 +134,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const body = await res.json().catch(() => ({}));
       throw new Error(body.error || `Грешка ${res.status} при одобрување`);
     }
+    const { profile: saved } = await res.json().catch(() => ({}));
     setData(prev => ({
       ...prev,
-      profiles: prev.profiles.map(p => p.id === id ? { ...p, isPending: false } : p),
+      profiles: prev.profiles.map(p =>
+        p.id === id ? (saved ?? { ...p, isPending: false }) : p
+      ),
     }));
   };
 

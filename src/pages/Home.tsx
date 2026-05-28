@@ -15,16 +15,18 @@ export default function Home() {
   });
   const { categories: mockCategories, profiles: allProfiles, articles: mockArticles } = useData();
 
-  // Само активни (не pending) профили
-  const mockProfiles = allProfiles.filter(p => !p.isPending);
+  // Само активни (не pending) профили, сортирани по датум (последно додаден прв)
+  const mockProfiles = allProfiles
+    .filter(p => !p.isPending)
+    .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 
-  // Категории сортирани по последно додаден профил (највисок индекс = понов)
+  // Категории сортирани по најновиот профил во секоја
   const activeCategories = mockCategories
     .filter(cat => mockProfiles.some(p => p.categorySlug === cat.slug))
     .sort((a, b) => {
-      const lastA = mockProfiles.reduce((max, p, i) => p.categorySlug === a.slug ? i : max, -1);
-      const lastB = mockProfiles.reduce((max, p, i) => p.categorySlug === b.slug ? i : max, -1);
-      return lastB - lastA; // поновите прво
+      const newestA = mockProfiles.find(p => p.categorySlug === a.slug)?.createdAt ?? '';
+      const newestB = mockProfiles.find(p => p.categorySlug === b.slug)?.createdAt ?? '';
+      return newestB.localeCompare(newestA);
     });
 
   return (

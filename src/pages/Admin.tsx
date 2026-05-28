@@ -129,8 +129,11 @@ export default function Admin() {
     return <AdminLogin onLogin={setToken} />;
   }
 
-  const activeProfiles = profiles.filter(p => !p.isPending);
-  const pendingProfiles = profiles.filter(p => p.isPending);
+  const sortByDate = (a: Profile, b: Profile) =>
+    (b.createdAt ?? '').localeCompare(a.createdAt ?? '');
+
+  const activeProfiles = profiles.filter(p => !p.isPending).sort(sortByDate);
+  const pendingProfiles = profiles.filter(p => p.isPending).sort(sortByDate);
 
   const handleEdit = (profile: Profile) => {
     setEditingProfile(profile);
@@ -155,6 +158,7 @@ export default function Admin() {
       isVerified: false,
       isPending: false,
       verificationStatus: 'unverified',
+      createdAt: new Date().toISOString(),
     };
     setEditingProfile(newProfile);
     setFormData(newProfile);
@@ -184,16 +188,27 @@ export default function Admin() {
     setSaveError('');
 
     const selectedCategory = categories.find(c => c.name === formData.category);
+    const generatedSlug = (!formData.slug || formData.slug.startsWith('novo-'))
+      ? slugify(formData.name || '')
+      : formData.slug;
+
+    // Slug uniqueness check (skip for existing profile being updated)
+    const isNew = !profiles.find(p => p.id === formData.id);
+    if (isNew && profiles.some(p => p.slug === generatedSlug)) {
+      setSaveError(`Slug "${generatedSlug}" веќе постои. Смени го името или уреди го slug полето.`);
+      setSaving(false);
+      return;
+    }
+
     const profileToSave: Profile = {
       ...formData,
       categorySlug: selectedCategory?.slug ?? formData.categorySlug ?? '',
-      slug: (!formData.slug || formData.slug.startsWith('novo-'))
-        ? slugify(formData.name || '')
-        : formData.slug,
+      slug: generatedSlug,
       isPending: false,
+      createdAt: formData.createdAt ?? new Date().toISOString(),
     } as Profile;
     try {
-      if (profiles.find(p => p.id === profileToSave.id)) {
+      if (!isNew) {
         await updateProfile(profileToSave);
       } else {
         await addProfile(profileToSave);
