@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { MapPin } from 'lucide-react';
 import { useData } from '../lib/DataContext';
 import { motion } from 'motion/react';
 import * as Icons from 'lucide-react';
@@ -23,11 +22,7 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-10 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="max-w-2xl relative z-10">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold mb-2 sm:mb-6 sm:text-sm sm:px-3 sm:py-1 mx-auto sm:mx-0 w-fit block sm:inline-flex">
-              <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
-              Гостивар и Полог
-            </span>
-            <h1 className="font-black tracking-tight text-slate-900 mb-2 sm:mb-6 uppercase whitespace-nowrap text-[clamp(1.9rem,4vw,3.5rem)] leading-none text-center sm:text-left">
+<h1 className="font-black tracking-tight text-slate-900 mb-2 sm:mb-6 uppercase whitespace-nowrap text-[clamp(1.9rem,4vw,3.5rem)] leading-none text-center sm:text-left">
               Локален <span className="text-blue-600">водич</span>
             </h1>
             <p className="text-sm sm:text-xl text-slate-600 font-medium sm:mb-8 leading-relaxed text-center sm:text-left max-w-lg">
