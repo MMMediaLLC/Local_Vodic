@@ -2,6 +2,8 @@ import { useState, FormEvent } from 'react';
 import { ArrowLeft, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const WEB3FORMS_KEY = 'ЗАМЕНИ_СО_ТВОЈОТ_КЛУЧ';
+
 export default function SubmitSubject() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,10 +14,13 @@ export default function SubmitSubject() {
   const [category, setCategory] = useState('');
   const [location, setLocation] = useState('');
   const [phone, setPhone] = useState('');
+  const [secondaryPhone, setSecondaryPhone] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [workingHours, setWorkingHours] = useState('');
   const [website, setWebsite] = useState('');
   const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [fullDesc, setFullDesc] = useState('');
 
@@ -24,30 +29,36 @@ export default function SubmitSubject() {
     setIsSubmitting(true);
     setSubmitError('');
     try {
-      const res = await fetch('/api/submissions', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          category,
-          location,
-          phone,
-          email,
-          address,
-          website,
-          facebook,
-          shortDescription: shortDesc,
-          fullDescription: fullDesc,
+          access_key: WEB3FORMS_KEY,
+          subject: `Ново пријавување: ${name}`,
+          from_name: 'GPRESS Локален водич',
+          '📌 Ime': name,
+          '🗂 Kategorija': category,
+          '📍 Lokacija': location,
+          '📞 Telefon': phone,
+          '📞 Vtor telefon': secondaryPhone || '—',
+          '📧 Email': email || '—',
+          '🏠 Adresa': address,
+          '🕐 Rabotno vreme': workingHours || '—',
+          '🌐 Web': website || '—',
+          '📘 Facebook': facebook || '—',
+          '📸 Instagram': instagram || '—',
+          '📝 Kratok opis': shortDesc,
+          '📄 Celos opis': fullDesc,
         }),
       });
       const json = await res.json();
-      if (res.ok && json.success) {
+      if (json.success) {
         setIsSubmitted(true);
       } else {
-        setSubmitError(json.error || 'Грешка при поднесување. Обидете се повторно.');
+        setSubmitError('Грешка при испраќање. Обидете се повторно.');
       }
     } catch {
-      setSubmitError('Серверот не е достапен. Проверете ја врската и обидете се повторно.');
+      setSubmitError('Грешка при испраќање. Проверете ја врската.');
     } finally {
       setIsSubmitting(false);
     }
@@ -145,12 +156,20 @@ export default function SubmitSubject() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Телефонски број <span className="text-red-500">*</span></label>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Телефон (главен) <span className="text-red-500">*</span></label>
                       <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 070 123 456" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Телефон (втор)</label>
+                      <input type="tel" value={secondaryPhone} onChange={e => setSecondaryPhone(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 042 123 456" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Електронска пошта (Email)</label>
                       <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: info@biznis.mk" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Работно време</label>
+                      <input type="text" value={workingHours} onChange={e => setWorkingHours(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Пон-Пет 08-17, Саб 09-14" />
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
@@ -184,12 +203,16 @@ export default function SubmitSubject() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Веб-страница линк</label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Веб-страница</label>
                         <input type="url" value={website} onChange={e => setWebsite(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://" />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Facebook / Instagram линк</label>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Facebook страница</label>
                         <input type="url" value={facebook} onChange={e => setFacebook(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://facebook.com/..." />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Instagram профил</label>
+                        <input type="url" value={instagram} onChange={e => setInstagram(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://instagram.com/..." />
                       </div>
                     </div>
                   </div>
