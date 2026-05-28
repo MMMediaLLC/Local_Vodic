@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react';
 import { ArrowLeft, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const WEB3FORMS_KEY = 'ЗАМЕНИ_СО_ТВОЈОТ_КЛУЧ';
+const WEB3FORMS_KEY = 'fea503c4-271d-4cca-a970-3de6546b9f6b';
 
 export default function SubmitSubject() {
   const [isSubmitted, setIsSubmitted] = useState(false);
