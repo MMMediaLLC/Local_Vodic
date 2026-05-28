@@ -35,12 +35,13 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
         body: JSON.stringify({ password }),
       });
 
-      // Try JSON parse — if it fails the function returned HTML (not running)
+      const text = await res.text();
       let json: any;
       try {
-        json = await res.json();
+        json = JSON.parse(text);
       } catch {
-        setError('Серверот не е достапен. Проверете ги env variables на Vercel.');
+        setError(`Грешка ${res.status}: функцијата врати не-JSON одговор. Провери Vercel Function логови.`);
+        console.error('Non-JSON response from /api/admin/login:', text.slice(0, 300));
         return;
       }
 
@@ -48,10 +49,10 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
         sessionStorage.setItem('adminToken', json.token);
         onLogin(json.token);
       } else {
-        setError(json.error || 'Грешка при најава.');
+        setError(json.error || `Грешка ${res.status} при најава.`);
       }
-    } catch {
-      setError('Серверот не е достапен. Проверете ги env variables на Vercel.');
+    } catch (err: any) {
+      setError(`Мрежна грешка: ${err?.message ?? 'fetch failed'}`);
     } finally {
       setLoading(false);
     }
