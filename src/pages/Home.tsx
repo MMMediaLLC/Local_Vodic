@@ -5,8 +5,14 @@ import { useData } from '../lib/DataContext';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import { usePageMeta } from '../lib/usePageMeta';
 
 export default function Home() {
+  usePageMeta({
+    title: 'GPRESS Локален водич — Гостивар и Полог',
+    description: 'Најдете ги најдобрите локални компании, услуги, институции и продавници во Гостивар и Полошкиот регион.',
+    canonicalPath: '/',
+  });
   const { categories: mockCategories, profiles: allProfiles, articles: mockArticles } = useData();
 
   // Само активни (не pending) профили

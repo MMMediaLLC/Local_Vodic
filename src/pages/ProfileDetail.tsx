@@ -5,6 +5,7 @@ import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import SafeImage from '../components/SafeImage';
 import VerificationBadge from '../components/VerificationBadge';
 import VerificationInfo from '../components/VerificationInfo';
+import { usePageMeta } from '../lib/usePageMeta';
 
 function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
   if (profile.googleMapsUrl) return profile.googleMapsUrl;
@@ -12,10 +13,51 @@ function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: st
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
+function getMapsEmbedUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
+  const url = profile.googleMapsUrl ?? '';
+  if (url.includes('/embed')) return url;
+  const query = encodeURIComponent(`${profile.name} ${profile.address} ${profile.location}`);
+  return `https://maps.google.com/maps?q=${query}&output=embed`;
+}
+
+function LocalBusinessJsonLd({ profile }: { profile: any }) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: profile.name,
+    description: profile.shortDescription || profile.fullDescription,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: profile.address,
+      addressLocality: profile.location,
+      addressCountry: 'MK',
+    },
+    telephone: profile.phone,
+    ...(profile.website && { url: profile.website }),
+    ...(profile.coverImage && { image: profile.coverImage }),
+    ...(profile.workingHours && { openingHours: profile.workingHours }),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function ProfileDetail() {
   const { slug } = useParams();
-  const { profiles: mockProfiles } = useData();
-  const profile = mockProfiles.find(p => p.slug === slug && !p.isPending);
+  const { profiles } = useData();
+  const profile = profiles.find(p => p.slug === slug && !p.isPending);
+
+  usePageMeta({
+    title: profile ? profile.name : 'Профилот не е пронајден',
+    description: profile
+      ? `${profile.shortDescription || profile.fullDescription} — ${profile.category}, ${profile.location}`
+      : undefined,
+    image: profile?.coverImage || profile?.logo,
+    canonicalPath: profile ? `/profil/${profile.slug}` : undefined,
+  });
 
   if (!profile) {
     return (
@@ -30,14 +72,16 @@ export default function ProfileDetail() {
     );
   }
 
-  const relatedProfiles = mockProfiles
+  const relatedProfiles = profiles
     .filter(p => p.categorySlug === profile.categorySlug && p.id !== profile.id && !p.isPending)
     .slice(0, 3);
 
   const mapsUrl = getMapsUrl(profile);
+  const embedUrl = getMapsEmbedUrl(profile);
 
   return (
     <div className="bg-slate-50 min-h-screen pb-16">
+      <LocalBusinessJsonLd profile={profile} />
 
       {/* Breadcrumb */}
       <div className="bg-white border-b border-slate-200">
@@ -90,7 +134,6 @@ export default function ProfileDetail() {
                 </div>
               </div>
 
-              {/* CTA Buttons — секогаш двете */}
               <div className="flex flex-row gap-3 shrink-0 md:self-end">
                 <a
                   href={`tel:${profile.phone}`}
@@ -185,19 +228,32 @@ export default function ProfileDetail() {
 
         <VerificationInfo profile={profile} />
 
-        {/* За нас + Галерија */}
+        {/* За нас + Услуги + Галерија */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">За нас</h2>
           <p className="text-slate-700 leading-relaxed whitespace-pre-line">{profile.fullDescription}</p>
 
+          {profile.services && profile.services.length > 0 && (
+            <>
+              <h2 className="text-xl font-bold text-slate-900 mt-10 mb-4 border-b border-slate-100 pb-3">Услуги</h2>
+              <div className="flex flex-wrap gap-2">
+                {profile.services.map((service: string, idx: number) => (
+                  <span key={idx} className="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-100 rounded-lg text-sm font-medium">
+                    {service}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+
           {(() => {
-            const validImages = (profile.galleryImages || []).filter(img => img?.trim());
+            const validImages = (profile.galleryImages || []).filter((img: string) => img?.trim());
             if (validImages.length === 0) return null;
             return (
               <>
                 <h2 className="text-xl font-bold text-slate-900 mt-10 mb-4 border-b border-slate-100 pb-3">Галерија</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {validImages.map((img, idx) => (
+                  {validImages.map((img: string, idx: number) => (
                     <div key={idx} className="aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
                       <SafeImage src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform" fallback={null} />
                     </div>
@@ -208,7 +264,36 @@ export default function ProfileDetail() {
           })()}
         </div>
 
-        {/* Слични профили — исти картички */}
+        {/* Google Maps Embed */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
+          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-blue-600" /> Локација
+            </h2>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+            >
+              Отвори во Google Maps →
+            </a>
+          </div>
+          <div className="h-64 sm:h-80 w-full bg-slate-100">
+            <iframe
+              title={`Локација на ${profile.name}`}
+              src={embedUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+
+        {/* Слични профили */}
         {relatedProfiles.length > 0 && (
           <div className="mt-4 mb-8">
             <h3 className="text-xl font-bold text-slate-900 mb-6">Слични профили од {profile.category}</h3>

@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useData } from '../lib/DataContext';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
+import { usePageMeta } from '../lib/usePageMeta';
 
 export default function CategoryDetail() {
   const { slug } = useParams();
@@ -9,6 +10,12 @@ export default function CategoryDetail() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   const category = mockCategories.find(c => c.slug === slug) || mockCategories[0];
+
+  usePageMeta({
+    title: category?.name ?? 'Категорија',
+    description: category?.description,
+    canonicalPath: `/kategorija/${slug}`,
+  });
 
   const profiles = allProfiles.filter(p =>
     !p.isPending &&

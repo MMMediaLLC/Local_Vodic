@@ -29,6 +29,18 @@ export default function SubmitSubject() {
     setIsSubmitting(true);
     setSubmitError('');
     try {
+      // 1. Зачувај во Supabase преку backend (се прикажува во админ панелот)
+      await fetch('/api/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, category, location, phone, secondaryPhone, email,
+          address, workingHours, website, facebook, instagram,
+          shortDescription: shortDesc, fullDescription: fullDesc,
+        }),
+      }).catch(() => {}); // тивко — не е критично ако API не е достапен
+
+      // 2. Испрати е-маил нотификација преку Web3Forms
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

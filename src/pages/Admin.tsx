@@ -40,15 +40,7 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
       try {
         json = await res.json();
       } catch {
-        // Functions not running — fall back to client-side check.
-        // In stateless auth the token IS the password, so we use the typed password directly.
-        const fallback = (import.meta as any).env?.VITE_ADMIN_PASSWORD || 'gpress2026';
-        if (password === fallback) {
-          sessionStorage.setItem('adminToken', password);
-          onLogin(password);
-        } else {
-          setError('Погрешна лозинка.');
-        }
+        setError('Серверот не е достапен. Проверете ги env variables на Vercel.');
         return;
       }
 
@@ -460,6 +452,16 @@ export default function Admin() {
                           onChange={e => setFormData({ ...formData, galleryImages: e.target.value.split('\n').map(s => s.trim()).filter(Boolean) })}
                           rows={3}
                           placeholder="https://slika1.jpg&#10;https://slika2.jpg"
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-sm"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Услуги (еден по ред)</label>
+                        <textarea
+                          value={(formData.services || []).join('\n')}
+                          onChange={e => setFormData({ ...formData, services: e.target.value.split('\n').map(s => s.trim()).filter(Boolean) })}
+                          rows={3}
+                          placeholder="Пр: Пломбирање&#10;Вадење заби&#10;Белење заби"
                           className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-sm"
                         />
                       </div>
