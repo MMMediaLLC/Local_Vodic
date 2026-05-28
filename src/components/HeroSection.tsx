@@ -25,7 +25,7 @@ export default function HeroSection() {
 <h1 className="font-black tracking-tight text-slate-900 mb-2 sm:mb-6 uppercase whitespace-nowrap text-[clamp(1.9rem,4vw,3.5rem)] leading-none text-center sm:text-left">
               Локален <span className="text-blue-600">водич</span>
             </h1>
-            <p className="text-sm sm:text-xl text-slate-600 font-medium sm:mb-8 leading-relaxed text-center sm:text-left max-w-lg">
+            <p className="text-sm sm:text-xl text-slate-600 font-medium sm:mb-8 leading-snug text-center sm:text-left">
               Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот.
             </p>
           </div>
