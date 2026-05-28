@@ -5,7 +5,7 @@ export default function Header() {
     <header className="w-full sticky top-0 z-50">
       <Link to="/" className="block">
         <img
-          src="https://i.ibb.co/pj00RbgP/image.png"
+          src="https://i.ibb.co/XGVBhgB/1.png"
           alt="GPRESS Local Guide"
           className="w-full h-20 md:h-auto block object-cover md:object-none object-left"
         />
