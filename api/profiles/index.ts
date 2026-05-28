@@ -1,0 +1,28 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { supabaseAdmin } from '../../lib/supabase';
+import { dbProfileToFrontend, frontendProfileToDb } from '../../lib/mappers';
+import { isAuthorized, unauthorized, setCors } from '../../lib/auth';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  setCors(res);
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
+  // ── POST /api/profiles — add new profile (admin only) ─────────
+  if (req.method === 'POST') {
+    if (!isAuthorized(req)) return unauthorized(res);
+
+    const row = frontendProfileToDb({ ...req.body, isPending: false });
+
+    const { data, error } = await supabaseAdmin
+      .from('profiles')
+      .insert(row)
+      .select()
+      .single();
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    return res.status(201).json({ success: true, profile: dbProfileToFrontend(data) });
+  }
+
+  return res.status(405).json({ error: 'Методот не е дозволен.' });
+}

@@ -49,10 +49,9 @@ async function upsertTable(table: string, rows: any[], label: string) {
     console.log(`  ⏭  ${label}: 0 records — skipping`);
     return;
   }
-  const { error, count } = await supabase
+  const { error } = await supabase
     .from(table)
-    .upsert(rows, { onConflict: 'id', ignoreDuplicates: false })
-    .select('id', { count: 'exact', head: true });
+    .upsert(rows, { onConflict: 'id', ignoreDuplicates: false });
 
   if (error) {
     console.error(`  ❌  ${label}: ${error.message}`);
