@@ -76,9 +76,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   ];
 
   for (const { name, rows } of tables) {
-    const { error } = await supabaseAdmin
+    const { error } = await (supabaseAdmin as any)
       .from(name)
-      .upsert(rows, { onConflict: 'id', ignoreDuplicates: true });
+      .upsert(rows as any[], { onConflict: 'id', ignoreDuplicates: true });
     results[name] = error ? `❌ ${error.message}` : `✅ ${rows.length} records`;
   }
 
