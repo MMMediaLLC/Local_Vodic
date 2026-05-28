@@ -1,16 +1,19 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useData } from '../lib/DataContext';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
 
 export default function CategoryDetail() {
   const { slug } = useParams();
   const { categories: mockCategories, locations: mockLocations, profiles: allProfiles } = useData();
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   const category = mockCategories.find(c => c.slug === slug) || mockCategories[0];
 
-  // Само активни (не pending) профили од оваа категорија
   const profiles = allProfiles.filter(p =>
-    !p.isPending && (!slug || p.categorySlug === category.slug)
+    !p.isPending &&
+    (!slug || p.categorySlug === category.slug) &&
+    (!selectedLocation || p.location === selectedLocation)
   );
 
   return (
@@ -33,13 +36,17 @@ export default function CategoryDetail() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Location filters */}
         <div className="flex flex-wrap gap-2 mb-8">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold shadow-sm">
+          <button
+            onClick={() => setSelectedLocation(null)}
+            className={`px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors ${!selectedLocation ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+          >
             Сите
           </button>
           {mockLocations.map(loc => (
             <button
               key={loc.id}
-              className="px-4 py-2 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors"
+              onClick={() => setSelectedLocation(loc.name)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedLocation === loc.name ? 'bg-blue-600 text-white font-bold' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
             >
               {loc.name}
             </button>

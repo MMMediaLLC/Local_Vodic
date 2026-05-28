@@ -22,7 +22,7 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-slate-900 mb-4 tracking-tight">Брзи линкови</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-slate-600 hover:text-blue-600 transition-colors">Почетна страта</Link></li>
+              <li><Link to="/" className="text-slate-600 hover:text-blue-600 transition-colors">Почетна страна</Link></li>
               <li><Link to="/prijavi-subjekt" className="text-slate-600 hover:text-blue-600 transition-colors">Пријави субјект</Link></li>
             </ul>
           </div>
@@ -42,8 +42,8 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Gostivarpress.mk. Сите права се задржани.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" className="text-slate-400 hover:text-slate-500">Facebook</a>
-            <a href="#" className="text-slate-400 hover:text-slate-500">Instagram</a>
+            <a href="https://www.facebook.com/gostivarpress" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">Facebook</a>
+            <a href="https://www.instagram.com/gostivarpress" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-pink-500 transition-colors">Instagram</a>
           </div>
         </div>
       </div>

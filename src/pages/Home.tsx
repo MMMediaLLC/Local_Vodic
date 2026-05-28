@@ -1,5 +1,6 @@
 import HeroSection from '../components/HeroSection';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
+import SafeImage from '../components/SafeImage';
 import { useData } from '../lib/DataContext';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -62,11 +63,7 @@ export default function Home() {
                 {mockProfiles.slice(0, 3).map(profile => (
                   <div key={`latest-${profile.id}`} className="flex items-start gap-4 p-3 border border-slate-100 -mx-3 hover:bg-white hover:border-slate-200 rounded-xl transition-colors hover:shadow-sm">
                     <div className={`overflow-hidden bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center flex-shrink-0 ${profile.logoShape === 'horizontal' ? 'w-20 h-12 rounded-md p-1' : 'w-14 h-14 rounded-xl'}`}>
-                      {profile.logo ? (
-                        <img src={profile.logo} alt="" className="w-full h-full object-contain" />
-                      ) : (
-                        <Icons.Store className="w-7 h-7" />
-                      )}
+                      <SafeImage src={profile.logo} alt="" className="w-full h-full object-contain" fallback={<Icons.Store className="w-7 h-7" />} />
                     </div>
                     <div className="flex-1">
                       <Link to={`/profil/${profile.slug}`} className="font-bold text-slate-900 hover:text-blue-600 block leading-tight">{profile.name}</Link>
