@@ -22,7 +22,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .select()
       .single();
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) return res.status(500).json({
+      error: error.message, code: error.code,
+      details: (error as any).details, hint: (error as any).hint,
+    });
 
     return res.json({ success: true, profile: dbProfileToFrontend(data) });
   }
@@ -36,7 +39,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .delete({ count: 'exact' })
       .eq('id', id);
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) return res.status(500).json({
+      error: error.message, code: error.code,
+      details: (error as any).details, hint: (error as any).hint,
+    });
     if (count === 0) return res.status(404).json({ error: 'Профилот не е пронајден.' });
 
     return res.json({ success: true });

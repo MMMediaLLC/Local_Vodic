@@ -19,7 +19,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .select()
       .single();
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) return res.status(500).json({
+      error: error.message, code: error.code,
+      details: (error as any).details, hint: (error as any).hint,
+    });
 
     return res.status(201).json({ success: true, profile: dbProfileToFrontend(data) });
   }
