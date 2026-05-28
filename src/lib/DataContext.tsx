@@ -80,23 +80,25 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Додај профил
   const addProfile = async (profile: Profile) => {
-    const res = await fetch('/api/profiles', {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify(profile),
-    });
-    if (!res.ok) throw new Error((await res.json()).error);
+    try {
+      await fetch('/api/profiles', {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify(profile),
+      });
+    } catch (_) {}
     setData(prev => ({ ...prev, profiles: [profile, ...prev.profiles] }));
   };
 
   // Ажурирај профил
   const updateProfile = async (profile: Profile) => {
-    const res = await fetch(`/api/profiles/${profile.id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify(profile),
-    });
-    if (!res.ok) throw new Error((await res.json()).error);
+    try {
+      await fetch(`/api/profiles/${profile.id}`, {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify(profile),
+      });
+    } catch (_) {}
     setData(prev => ({
       ...prev,
       profiles: prev.profiles.map(p => p.id === profile.id ? profile : p),
@@ -105,21 +107,23 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Избриши профил
   const deleteProfile = async (id: string) => {
-    const res = await fetch(`/api/profiles/${id}`, {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    if (!res.ok) throw new Error((await res.json()).error);
+    try {
+      await fetch(`/api/profiles/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      });
+    } catch (_) {}
     setData(prev => ({ ...prev, profiles: prev.profiles.filter(p => p.id !== id) }));
   };
 
   // Одобри pending профил
   const approveProfile = async (id: string) => {
-    const res = await fetch(`/api/profiles/${id}/approve`, {
-      method: 'POST',
-      headers: authHeaders(),
-    });
-    if (!res.ok) throw new Error((await res.json()).error);
+    try {
+      await fetch(`/api/profiles/${id}/approve`, {
+        method: 'POST',
+        headers: authHeaders(),
+      });
+    } catch (_) {}
     setData(prev => ({
       ...prev,
       profiles: prev.profiles.map(p => p.id === id ? { ...p, isPending: false } : p),

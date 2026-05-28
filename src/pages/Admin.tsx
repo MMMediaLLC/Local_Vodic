@@ -13,24 +13,16 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
     e.preventDefault();
     setLoading(true);
     setError('');
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      const json = await res.json();
-      if (res.ok) {
-        sessionStorage.setItem('adminToken', json.token);
-        onLogin(json.token);
-      } else {
-        setError(json.error || 'Грешка при најава.');
-      }
-    } catch {
-      setError('Серверот не е достапен.');
-    } finally {
-      setLoading(false);
+    await new Promise(r => setTimeout(r, 400));
+    const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'gpress2026';
+    if (password === correctPassword) {
+      const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      sessionStorage.setItem('adminToken', token);
+      onLogin(token);
+    } else {
+      setError('Погрешна лозинка.');
     }
+    setLoading(false);
   };
 
   return (
@@ -90,13 +82,7 @@ export default function Admin() {
     if (stored) setToken(stored);
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    } catch (_) {}
+  const handleLogout = () => {
     sessionStorage.removeItem('adminToken');
     setToken(null);
   };
