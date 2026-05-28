@@ -157,6 +157,7 @@ export default function Admin() {
       isFeatured: false,
       isVerified: false,
       isPending: false,
+      isActive: true,
       verificationStatus: 'unverified',
       createdAt: new Date().toISOString(),
     };
@@ -188,7 +189,10 @@ export default function Admin() {
     setSaveError('');
 
     const selectedCategory = categories.find(c => c.name === formData.category);
-    const generatedSlug = (!formData.slug || formData.slug.startsWith('novo-'))
+    const slugNeedsGeneration = !formData.slug
+      || formData.slug.startsWith('novo-')
+      || formData.slug.startsWith('pending-');
+    const generatedSlug = slugNeedsGeneration
       ? slugify(formData.name || '')
       : formData.slug;
 
