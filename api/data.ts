@@ -15,8 +15,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // ── GET /api/data ─────────────────────────────────────────────
   if (req.method === 'GET') {
+    const adminView = isAuthorized(req);
+    const profilesQ = adminView
+      ? supabaseAdmin.from('profiles').select('*').order('created_at', { ascending: false })
+      : supabaseAdmin.from('profiles').select('*').eq('is_pending', false).order('created_at', { ascending: false });
+
     const [p, c, l, ct, a] = await Promise.all([
-      supabaseAdmin.from('profiles')  .select('*').order('created_at', { ascending: false }),
+      profilesQ,
       supabaseAdmin.from('categories').select('*').order('created_at', { ascending: true }),
       supabaseAdmin.from('locations') .select('*').order('name'),
       supabaseAdmin.from('contacts')  .select('*').order('category'),

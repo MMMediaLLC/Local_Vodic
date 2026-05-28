@@ -104,9 +104,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const body = await res.json().catch(() => ({}));
       throw new Error(body.error || `Грешка ${res.status} при ажурирање`);
     }
+    const { profile: saved } = await res.json().catch(() => ({}));
     setData(prev => ({
       ...prev,
-      profiles: prev.profiles.map(p => p.id === profile.id ? profile : p),
+      profiles: prev.profiles.map(p => p.id === profile.id ? (saved ?? profile) : p),
     }));
   };
 
@@ -125,12 +126,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Одобри pending профил
   const approveProfile = async (id: string) => {
-    try {
-      await fetch(`/api/profiles/${id}/approve`, {
-        method: 'POST',
-        headers: authHeaders(),
-      });
-    } catch (_) {}
+    const res = await fetch(`/api/profiles/${id}/approve`, {
+      method: 'POST',
+      headers: authHeaders(),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || `Грешка ${res.status} при одобрување`);
+    }
     setData(prev => ({
       ...prev,
       profiles: prev.profiles.map(p => p.id === id ? { ...p, isPending: false } : p),

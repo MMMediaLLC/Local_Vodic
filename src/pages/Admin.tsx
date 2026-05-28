@@ -3,6 +3,21 @@ import { useData } from '../lib/DataContext';
 import { Settings, Plus, Edit, Trash2, Save, FileText, X, Lock, LogOut, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
 import { Profile } from '../types';
 
+const CYR_MAP: Record<string, string> = {
+  а:'a',б:'b',в:'v',г:'g',д:'d',ѓ:'gj',е:'e',ж:'zh',з:'z',ѕ:'dz',и:'i',ј:'j',
+  к:'k',л:'l',љ:'lj',м:'m',н:'n',њ:'nj',о:'o',п:'p',р:'r',с:'s',т:'t',ќ:'kj',
+  у:'u',ф:'f',х:'h',ц:'c',ч:'ch',џ:'dzh',ш:'sh',
+};
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .split('')
+    .map(ch => CYR_MAP[ch] ?? ch)
+    .join('')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'profil';
+}
+
 // ---------- Login Screen ----------
 function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
   const [password, setPassword] = useState('');
@@ -25,12 +40,12 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
       try {
         json = await res.json();
       } catch {
-        // Functions not running — fall back to client-side check
+        // Functions not running — fall back to client-side check.
+        // In stateless auth the token IS the password, so we use the typed password directly.
         const fallback = (import.meta as any).env?.VITE_ADMIN_PASSWORD || 'gpress2026';
         if (password === fallback) {
-          const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-          sessionStorage.setItem('adminToken', token);
-          onLogin(token);
+          sessionStorage.setItem('adminToken', password);
+          onLogin(password);
         } else {
           setError('Погрешна лозинка.');
         }
@@ -177,12 +192,14 @@ export default function Admin() {
     setSaveError('');
 
     const selectedCategory = categories.find(c => c.name === formData.category);
-    if (selectedCategory) formData.categorySlug = selectedCategory.slug;
-    if (!formData.slug || formData.slug.startsWith('novo-')) {
-      formData.slug = (formData.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    }
-
-    const profileToSave = { ...formData, isPending: false } as Profile;
+    const profileToSave: Profile = {
+      ...formData,
+      categorySlug: selectedCategory?.slug ?? formData.categorySlug ?? '',
+      slug: (!formData.slug || formData.slug.startsWith('novo-'))
+        ? slugify(formData.name || '')
+        : formData.slug,
+      isPending: false,
+    } as Profile;
     try {
       if (profiles.find(p => p.id === profileToSave.id)) {
         await updateProfile(profileToSave);
