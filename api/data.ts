@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../lib/supabase';
+import { supabaseAdmin } from './_lib/supabase';
 import {
   dbProfileToFrontend,  frontendProfileToDb,
   dbCategoryToFrontend, frontendCategoryToDb,
   dbLocationToFrontend, frontendLocationToDb,
   dbContactToFrontend,  frontendContactToDb,
   dbArticleToFrontend,  frontendArticleToDb,
-} from '../lib/mappers';
-import { isAuthorized, unauthorized, setCors } from '../lib/auth';
+} from './_lib/mappers';
+import { isAuthorized, unauthorized, setCors } from './_lib/auth';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);

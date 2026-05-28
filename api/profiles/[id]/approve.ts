@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../../lib/supabase';
-import { dbProfileToFrontend } from '../../../lib/mappers';
-import { isAuthorized, unauthorized, setCors } from '../../../lib/auth';
+import { supabaseAdmin } from '../../_lib/supabase';
+import { dbProfileToFrontend } from '../../_lib/mappers';
+import { isAuthorized, unauthorized, setCors } from '../../_lib/auth';
 
 const CYR_MAP: Record<string, string> = {
   а:'a',б:'b',в:'v',г:'g',д:'d',ѓ:'gj',е:'e',ж:'zh',з:'z',ѕ:'dz',и:'i',ј:'j',
