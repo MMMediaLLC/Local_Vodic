@@ -104,6 +104,13 @@ ALTER TABLE locations  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contacts   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE articles   ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first (safe to re-run)
+DROP POLICY IF EXISTS "Public read profiles"   ON profiles;
+DROP POLICY IF EXISTS "Public read categories" ON categories;
+DROP POLICY IF EXISTS "Public read locations"  ON locations;
+DROP POLICY IF EXISTS "Public read contacts"   ON contacts;
+DROP POLICY IF EXISTS "Public read articles"   ON articles;
+
 CREATE POLICY "Public read profiles"   ON profiles   FOR SELECT USING (true);
 CREATE POLICY "Public read categories" ON categories FOR SELECT USING (true);
 CREATE POLICY "Public read locations"  ON locations  FOR SELECT USING (true);
