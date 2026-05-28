@@ -13,24 +13,16 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
     e.preventDefault();
     setLoading(true);
     setError('');
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      const json = await res.json();
-      if (res.ok) {
-        sessionStorage.setItem('adminToken', json.token);
-        onLogin(json.token);
-      } else {
-        setError(json.error || 'Грешка при најава.');
-      }
-    } catch {
-      setError('Серверот не е достапен.');
-    } finally {
-      setLoading(false);
+    await new Promise(r => setTimeout(r, 400));
+    const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'gpress2026';
+    if (password === correctPassword) {
+      const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      sessionStorage.setItem('adminToken', token);
+      onLogin(token);
+    } else {
+      setError('Погрешна лозинка.');
     }
+    setLoading(false);
   };
 
   return (
@@ -90,13 +82,7 @@ export default function Admin() {
     if (stored) setToken(stored);
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    } catch (_) {}
+  const handleLogout = () => {
     sessionStorage.removeItem('adminToken');
     setToken(null);
   };
@@ -277,9 +263,18 @@ export default function Admin() {
                     <h2 className="text-2xl font-bold text-slate-900">Пријавени субјекти — На чекање</h2>
                   </div>
                   {pendingProfiles.length === 0 ? (
-                    <div className="text-center py-16 text-slate-400">
-                      <Clock className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                      <p className="font-medium">Нема пријавени субјекти на чекање.</p>
+                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8 max-w-lg mx-auto text-center">
+                      <Clock className="w-12 h-12 mx-auto mb-4 text-blue-400" />
+                      <h3 className="font-bold text-slate-900 text-lg mb-2">Нема чекачки пријави</h3>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        Пријавите преку формата се испраќаат на <strong>gostivarpress@gmail.com</strong>. Откако ќе добиете мејл, рачно додајте го субјектот преку копчето <strong>„Додај нов"</strong> на табот Профили.
+                      </p>
+                      <button
+                        onClick={() => { setActiveTab('profiles'); handleAddNew(); }}
+                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-colors"
+                      >
+                        <Plus className="w-4 h-4" /> Додај нов профил
+                      </button>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -360,6 +355,14 @@ export default function Admin() {
                         <input type="text" value={formData.phone || ''} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
                       <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Втор телефон</label>
+                        <input type="text" value={formData.secondaryPhone || ''} onChange={e => setFormData({ ...formData, secondaryPhone: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Е-маил</label>
+                        <input type="email" value={formData.email || ''} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
                         <label className="block text-sm font-bold text-slate-700 mb-1">Адреса</label>
                         <input type="text" value={formData.address || ''} onChange={e => setFormData({ ...formData, address: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
@@ -372,6 +375,22 @@ export default function Admin() {
                         <input type="text" value={formData.location || ''} onChange={e => setFormData({ ...formData, location: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
                       <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Веб-страница (URL)</label>
+                        <input type="url" value={formData.website || ''} onChange={e => setFormData({ ...formData, website: e.target.value })} placeholder="https://..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Facebook (URL)</label>
+                        <input type="url" value={formData.facebook || ''} onChange={e => setFormData({ ...formData, facebook: e.target.value })} placeholder="https://facebook.com/..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Instagram (URL)</label>
+                        <input type="url" value={formData.instagram || ''} onChange={e => setFormData({ ...formData, instagram: e.target.value })} placeholder="https://instagram.com/..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Google Maps (URL)</label>
+                        <input type="url" value={formData.googleMapsUrl || ''} onChange={e => setFormData({ ...formData, googleMapsUrl: e.target.value })} placeholder="https://maps.google.com/..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
                         <label className="block text-sm font-bold text-slate-700 mb-1">Лого (URL)</label>
                         <input type="text" value={formData.logo || ''} onChange={e => setFormData({ ...formData, logo: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
@@ -381,6 +400,20 @@ export default function Admin() {
                           <option value="square">Коцка (Square)</option>
                           <option value="horizontal">Хоризонтално (Horizontal)</option>
                         </select>
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Cover слика (URL)</label>
+                        <input type="url" value={formData.coverImage || ''} onChange={e => setFormData({ ...formData, coverImage: e.target.value })} placeholder="https://..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Галерија (URL-ови, еден по ред)</label>
+                        <textarea
+                          value={(formData.galleryImages || []).join('\n')}
+                          onChange={e => setFormData({ ...formData, galleryImages: e.target.value.split('\n').map(s => s.trim()).filter(Boolean) })}
+                          rows={3}
+                          placeholder="https://slika1.jpg&#10;https://slika2.jpg"
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-sm"
+                        />
                       </div>
                       <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-2 items-start sm:items-center">
                         <label className="flex items-center gap-2 cursor-pointer shrink-0">
