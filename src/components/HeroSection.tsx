@@ -20,20 +20,20 @@ export default function HeroSection() {
 
   return (
     <section className="bg-white border-b border-slate-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-10 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="max-w-2xl relative z-10">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-2 sm:mb-6">
               <MapPin className="w-4 h-4" />
               Гостивар и Полог
             </span>
-            <h1 className="font-black tracking-tight text-slate-900 mb-6 uppercase whitespace-nowrap text-[clamp(2rem,4vw,3.5rem)] leading-none">
+            <h1 className="font-black tracking-tight text-slate-900 mb-2 sm:mb-6 uppercase whitespace-nowrap text-[clamp(2rem,4vw,3.5rem)] leading-none">
               Локален <span className="text-blue-600">водич</span>
             </h1>
-            <p className="text-xl sm:text-2xl text-slate-700 font-medium mb-4">
+            <p className="text-base sm:text-2xl text-slate-700 font-medium mb-0 sm:mb-4">
               Фирми, услуги, институции, продавници и корисни информации од регионот.
             </p>
-            <p className="text-lg text-slate-500 mb-8 max-w-lg">
+            <p className="hidden sm:block text-lg text-slate-500 mb-8 max-w-lg">
               Најдете локални субјекти, услуги, адреси, телефони, работно време и корисни информации на едно место.
             </p>
           </div>
