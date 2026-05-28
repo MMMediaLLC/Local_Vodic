@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { useData } from '../lib/DataContext';
 import { motion } from 'motion/react';
 import * as Icons from 'lucide-react';
@@ -27,7 +27,7 @@ export default function HeroSection() {
               <MapPin className="w-4 h-4" />
               Гостивар и Полог
             </span>
-            <h1 className="font-black tracking-tight text-slate-900 mb-6 uppercase whitespace-nowrap text-[clamp(2.8rem,7vw,5.5rem)] leading-none">
+            <h1 className="font-black tracking-tight text-slate-900 mb-6 uppercase whitespace-nowrap text-[clamp(2rem,4vw,3.5rem)] leading-none">
               Локален <span className="text-blue-600">водич</span>
             </h1>
             <p className="text-xl sm:text-2xl text-slate-700 font-medium mb-4">
@@ -36,12 +36,6 @@ export default function HeroSection() {
             <p className="text-lg text-slate-500 mb-8 max-w-lg">
               Најдете локални субјекти, услуги, адреси, телефони, работно време и корисни информации на едно место.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/prijavi-subjekt" className="inline-flex justify-center items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all shadow-sm shadow-blue-200">
-                Пријави субјект
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
           </div>
           
           <div className="hidden lg:block relative h-[500px] w-full rounded-2xl bg-slate-50 overflow-hidden border border-slate-100">

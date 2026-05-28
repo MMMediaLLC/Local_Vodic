@@ -114,20 +114,16 @@ export default function SubmitSubject() {
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Категорија <span className="text-red-500">*</span></label>
                       <select value={category} onChange={e => setCategory(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700">
                         <option value="">Избери категорија...</option>
-                        <optgroup label="Ударни (Основни) Категории">
-                          <option value="Здравство и Медицина">Здравство и Медицина</option>
-                          <option value="Градежништво и Мајстори">Градежништво и Мајстори</option>
-                          <option value="Авто-мото">Авто-мото</option>
-                          <option value="Храна и Угостителство">Храна и Угостителство</option>
-                          <option value="Продавници и Трговија">Продавници и Трговија</option>
-                        </optgroup>
-                        <optgroup label="Помеки (Lifestyle) Категории">
-                          <option value="Убавина и Нега">Убавина и Нега</option>
-                          <option value="Услуги и Агенции">Услуги и Агенции</option>
-                          <option value="Едукација и Курсеви">Едукација и Курсеви</option>
-                          <option value="Забава и Настани">Забава и Настани</option>
-                          <option value="Спорт и Рекреација">Спорт и Рекреација</option>
-                        </optgroup>
+                        <option value="Здравство и Медицина">Здравство и Медицина</option>
+                        <option value="Градежништво и Мајстори">Градежништво и Мајстори</option>
+                        <option value="Авто-мото">Авто-мото</option>
+                        <option value="Храна и Угостителство">Храна и Угостителство</option>
+                        <option value="Продавници и Трговија">Продавници и Трговија</option>
+                        <option value="Убавина и Нега">Убавина и Нега</option>
+                        <option value="Услуги и Агенции">Услуги и Агенции</option>
+                        <option value="Едукација и Курсеви">Едукација и Курсеви</option>
+                        <option value="Забава и Настани">Забава и Настани</option>
+                        <option value="Спорт и Рекреација">Спорт и Рекреација</option>
                       </select>
                     </div>
                     <div>
