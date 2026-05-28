@@ -7,7 +7,7 @@ export default function Header() {
         <img
           src="https://i.ibb.co/XGVBhgB/1.png"
           alt="GPRESS Local Guide"
-          className="w-full h-20 md:h-auto block object-cover md:object-none object-left"
+          className="w-full h-20 sm:h-28 object-cover object-left"
         />
       </Link>
     </header>
