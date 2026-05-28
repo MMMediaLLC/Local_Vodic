@@ -10,23 +10,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const id = req.query.id as string;
   if (!id) return res.status(400).json({ error: 'ID е задолжително.' });
 
-  // ── PUT /api/profiles/:id — update profile (admin only) ───────
+  // ── PUT /api/profiles/:id — upsert profile (admin only) ─────────
   if (req.method === 'PUT') {
     if (!isAuthorized(req)) return unauthorized(res);
 
-    const row = frontendProfileToDb(req.body);
+    const row = { ...frontendProfileToDb(req.body), id };
 
     const { data, error } = await supabaseAdmin
       .from('profiles')
-      .update(row)
-      .eq('id', id)
+      .upsert(row, { onConflict: 'id' })
       .select()
       .single();
 
-    if (error) {
-      if (error.code === 'PGRST116') return res.status(404).json({ error: 'Профилот не е пронајден.' });
-      return res.status(500).json({ error: error.message });
-    }
+    if (error) return res.status(500).json({ error: error.message });
 
     return res.json({ success: true, profile: dbProfileToFrontend(data) });
   }
