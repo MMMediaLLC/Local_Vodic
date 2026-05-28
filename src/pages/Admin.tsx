@@ -287,9 +287,15 @@ export default function Admin() {
                       <tbody className="divide-y divide-slate-100 bg-white">
                         {activeProfiles.map(p => (
                           <tr key={p.id} className="hover:bg-slate-50/50">
-                            <td className="px-4 py-3 font-medium text-slate-900 flex items-center gap-2">
-                              {p.isVerified && <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />}
-                              {p.name}
+                            <td className="px-4 py-3 font-medium text-slate-900">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                {p.isVerified && <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />}
+                                {p.isActive === false && (
+                                  <span className="text-[10px] font-bold bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded uppercase tracking-wide">скриен</span>
+                                )}
+                                {p.name}
+                              </div>
+                              <p className="text-xs text-slate-400 font-mono mt-0.5">{p.slug}</p>
                             </td>
                             <td className="px-4 py-3">{p.category}</td>
                             <td className="px-4 py-3 text-right">
@@ -322,7 +328,7 @@ export default function Admin() {
                       <Clock className="w-12 h-12 mx-auto mb-4 text-blue-400" />
                       <h3 className="font-bold text-slate-900 text-lg mb-2">Нема чекачки пријави</h3>
                       <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                        Пријавите преку формата се испраќаат на <strong>gostivarpress@gmail.com</strong>. Откако ќе добиете мејл, рачно додајте го субјектот преку копчето <strong>„Додај нов"</strong> на табот Профили.
+                        Новите пријави преку формата се зачувуваат овде и се испраќаат на <strong>gostivarpress@gmail.com</strong>. Уреди ги деталите и кликни <strong>„Одобри"</strong> за да се објават.
                       </p>
                       <button
                         onClick={() => { setActiveTab('profiles'); handleAddNew(); }}
@@ -396,6 +402,17 @@ export default function Admin() {
                         <select value={formData.category || ''} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                           {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
                         </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Slug (URL)</label>
+                        <input
+                          type="text"
+                          value={formData.slug || ''}
+                          onChange={e => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+                          placeholder="auto-generirano-od-ime"
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-sm"
+                        />
+                        <p className="text-xs text-slate-400 mt-1">Остави празно за автоматска генерација од името.</p>
                       </div>
                       <div className="md:col-span-2">
                         <label className="block text-sm font-bold text-slate-700 mb-1">Краток опис (за листа)</label>
@@ -481,6 +498,10 @@ export default function Admin() {
                         />
                       </div>
                       <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-2 items-start sm:items-center">
+                        <label className="flex items-center gap-2 cursor-pointer shrink-0">
+                          <input type="checkbox" checked={formData.isActive !== false} onChange={e => setFormData({ ...formData, isActive: e.target.checked })} className="w-4 h-4 rounded text-blue-600" />
+                          <span className="text-sm font-bold text-slate-700">Активен (видлив јавно)</span>
+                        </label>
                         <label className="flex items-center gap-2 cursor-pointer shrink-0">
                           <input type="checkbox" checked={formData.isFeatured || false} onChange={e => setFormData({ ...formData, isFeatured: e.target.checked })} className="w-4 h-4 rounded text-blue-600" />
                           <span className="text-sm font-bold text-slate-700">Истакнат (Home Page)</span>

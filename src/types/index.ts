@@ -34,6 +34,7 @@ export type Profile = {
   isFeatured: boolean;
   isVerified: boolean;
   isPending?: boolean;
+  isActive?: boolean;
   verificationStatus?: 'unverified' | 'verified' | 'checked_subject';
   verifiedAt?: string;
   createdAt?: string;

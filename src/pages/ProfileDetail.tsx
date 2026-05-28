@@ -48,7 +48,7 @@ function LocalBusinessJsonLd({ profile }: { profile: any }) {
 export default function ProfileDetail() {
   const { slug } = useParams();
   const { profiles } = useData();
-  const profile = profiles.find(p => p.slug === slug && !p.isPending);
+  const profile = profiles.find(p => p.slug === slug && !p.isPending && p.isActive !== false);
 
   usePageMeta({
     title: profile ? profile.name : 'Профилот не е пронајден',
