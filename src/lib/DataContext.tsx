@@ -48,15 +48,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       .then(res => res.json())
       .then(fetchedData => {
         if (fetchedData?.profiles?.length > 0) {
-          setData(fetchedData);
-        } else {
-          // Seed backend со mock data на прво вчитување
-          fetch('/api/data', {
-            method: 'POST',
-            headers: authHeaders(),
-            body: JSON.stringify(data),
-          }).catch(console.error);
+          setData({
+            profiles:   fetchedData.profiles,
+            categories: fetchedData.categories?.length > 0 ? fetchedData.categories : mockCategories,
+            locations:  fetchedData.locations?.length  > 0 ? fetchedData.locations  : mockLocations,
+            contacts:   fetchedData.contacts?.length   > 0 ? fetchedData.contacts   : mockContacts,
+            articles:   fetchedData.articles?.length   > 0 ? fetchedData.articles   : mockArticles,
+          });
         }
+        // If Supabase is empty the mock defaults remain — admin seeding will populate it
       })
       .catch(err => console.error('Failed to fetch data, using mock defaults:', err))
       .finally(() => setIsLoading(false));
@@ -80,25 +80,30 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Додај профил
   const addProfile = async (profile: Profile) => {
-    try {
-      await fetch('/api/profiles', {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify(profile),
-      });
-    } catch (_) {}
-    setData(prev => ({ ...prev, profiles: [profile, ...prev.profiles] }));
+    const res = await fetch('/api/profiles', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(profile),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || `Грешка ${res.status} при зачувување`);
+    }
+    const { profile: saved } = await res.json();
+    setData(prev => ({ ...prev, profiles: [saved ?? profile, ...prev.profiles] }));
   };
 
   // Ажурирај профил
   const updateProfile = async (profile: Profile) => {
-    try {
-      await fetch(`/api/profiles/${profile.id}`, {
-        method: 'PUT',
-        headers: authHeaders(),
-        body: JSON.stringify(profile),
-      });
-    } catch (_) {}
+    const res = await fetch(`/api/profiles/${profile.id}`, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify(profile),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || `Грешка ${res.status} при ажурирање`);
+    }
     setData(prev => ({
       ...prev,
       profiles: prev.profiles.map(p => p.id === profile.id ? profile : p),
@@ -107,12 +112,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Избриши профил
   const deleteProfile = async (id: string) => {
-    try {
-      await fetch(`/api/profiles/${id}`, {
-        method: 'DELETE',
-        headers: authHeaders(),
-      });
-    } catch (_) {}
+    const res = await fetch(`/api/profiles/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || `Грешка ${res.status} при бришење`);
+    }
     setData(prev => ({ ...prev, profiles: prev.profiles.filter(p => p.id !== id) }));
   };
 
