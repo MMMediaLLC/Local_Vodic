@@ -487,8 +487,9 @@ export default function Admin() {
                         <input type="url" value={formData.instagram || ''} onChange={e => setFormData({ ...formData, instagram: e.target.value })} placeholder="https://instagram.com/..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-1">Google Maps (URL)</label>
-                        <input type="url" value={formData.googleMapsUrl || ''} onChange={e => setFormData({ ...formData, googleMapsUrl: e.target.value })} placeholder="https://maps.google.com/..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Google Maps (локација)</label>
+                        <input type="text" value={formData.googleMapsUrl || ''} onChange={e => setFormData({ ...formData, googleMapsUrl: e.target.value })} placeholder="41.7976, 20.9123  или  Google Maps линк" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                        <p className="text-xs text-slate-400 mt-1">За точен пин: внеси координати (пр. <span className="font-mono">41.7976, 20.9123</span>) или залепи Google Maps линк од лентата за адреса. Десен клик на локацијата во Google Maps → кликни на координатите за да ги копираш.</p>
                       </div>
                       <div>
                         <label className="block text-sm font-bold text-slate-700 mb-1">Лого (URL)</label>

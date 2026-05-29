@@ -7,7 +7,27 @@ import VerificationBadge from '../components/VerificationBadge';
 import VerificationInfo from '../components/VerificationInfo';
 import { usePageMeta } from '../lib/usePageMeta';
 
+// Извлекува точни координати (lat,lng) од Google Maps линк во повеќе формати,
+// или од гол внес „41.7976, 20.9123". Точни координати = точен pin (нема
+// текст-пребарување што наоѓа погрешен сличен бизнис).
+function extractCoords(url: string): { lat: string; lng: string } | null {
+  if (!url) return null;
+  const patterns = [
+    /^\s*(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)\s*$/, // гол "lat,lng"
+    /@(-?\d+\.\d+),(-?\d+\.\d+)/,                       // .../@lat,lng,17z
+    /!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/,                   // !3dlat!4dlng
+    /[?&](?:q|query|ll|center)=(-?\d+\.\d+),(-?\d+\.\d+)/, // q=/ll=/center=lat,lng
+  ];
+  for (const re of patterns) {
+    const m = url.match(re);
+    if (m) return { lat: m[1], lng: m[2] };
+  }
+  return null;
+}
+
 function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
+  const coords = extractCoords(profile.googleMapsUrl ?? '');
+  if (coords) return `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lng}`;
   if (profile.googleMapsUrl) return profile.googleMapsUrl;
   const query = encodeURIComponent(`${profile.name} ${profile.address} ${profile.location}`);
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
@@ -15,7 +35,12 @@ function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: st
 
 function getMapsEmbedUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
   const url = profile.googleMapsUrl ?? '';
-  if (url.includes('/embed')) return url;
+  // 1) Веќе embed код — користи директно
+  if (url.includes('/embed') || url.includes('output=embed')) return url;
+  // 2) Точни координати — точен pin (најсигурно)
+  const coords = extractCoords(url);
+  if (coords) return `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed`;
+  // 3) Fallback — текст-пребарување по име+адреса (може да најде приближно)
   const query = encodeURIComponent(`${profile.name} ${profile.address} ${profile.location}`);
   return `https://maps.google.com/maps?q=${query}&output=embed`;
 }
