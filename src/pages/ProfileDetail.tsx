@@ -12,6 +12,24 @@ import { usePageMeta } from '../lib/usePageMeta';
 // текст-пребарување што наоѓа погрешен сличен бизнис).
 function extractCoords(url: string): { lat: string; lng: string } | null {
   if (!url) return null;
+
+  // DMS формат: 41°47'49.4"N 20°54'44.6"E (степени-минути-секунди)
+  const dms = url.match(
+    /(\d+)\s*°\s*(\d+)\s*['′]\s*([\d.]+)\s*["″]\s*([NSns])[,\s]+(\d+)\s*°\s*(\d+)\s*['′]\s*([\d.]+)\s*["″]\s*([EWew])/
+  );
+  if (dms) {
+    const toDec = (d: string, m: string, s: string, hemi: string) => {
+      let v = parseInt(d, 10) + parseInt(m, 10) / 60 + parseFloat(s) / 3600;
+      if (/[SsWw]/.test(hemi)) v = -v;
+      return v.toFixed(6);
+    };
+    return {
+      lat: toDec(dms[1], dms[2], dms[3], dms[4]),
+      lng: toDec(dms[5], dms[6], dms[7], dms[8]),
+    };
+  }
+
+  // Децимален формат
   const patterns = [
     /^\s*(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)\s*$/, // гол "lat,lng"
     /@(-?\d+\.\d+),(-?\d+\.\d+)/,                       // .../@lat,lng,17z
