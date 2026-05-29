@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from './_lib/supabase';
-import { isAuthorized, unauthorized, setCors } from './_lib/auth';
-import { frontendProfileToDb, frontendCategoryToDb, frontendLocationToDb, frontendContactToDb, frontendArticleToDb } from './_lib/mappers';
+import { supabaseAdmin } from './_lib/supabase.js';
+import { isAuthorized, unauthorized, setCors } from './_lib/auth.js';
+import { frontendProfileToDb, frontendCategoryToDb, frontendLocationToDb, frontendContactToDb, frontendArticleToDb } from './_lib/mappers.js';
 
 // Mock data inlined — mirrors src/lib/mockData.ts + src/data/categories.ts.
 // (api/ functions cannot import from src/, so the 10-category structure is duplicated here.)

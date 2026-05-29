@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../_lib/supabase';
-import { dbProfileToFrontend, frontendProfileToDb } from '../_lib/mappers';
-import { isAuthorized, unauthorized, setCors } from '../_lib/auth';
+import { supabaseAdmin } from '../_lib/supabase.js';
+import { dbProfileToFrontend, frontendProfileToDb } from '../_lib/mappers.js';
+import { isAuthorized, unauthorized, setCors } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
