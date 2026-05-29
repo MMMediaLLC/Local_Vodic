@@ -61,12 +61,18 @@ Push to `main` → Vercel auto-deploys.
 
 **Domain:** add `vodic.gostivarpress.mk` → DNS CNAME → `cname.vercel-dns.com`
 
-## One-time data migration
+## Database setup
 
-Run once after creating Supabase tables via `supabase/migrations/0001_initial_schema.sql`:
+Run the SQL migrations in order in the Supabase SQL Editor:
 
-```bash
-npm run migrate
+1. `supabase/migrations/0001_initial_schema.sql` — tables + RLS (public read)
+2. `supabase/migrations/0002_add_is_active.sql` — `is_active` column
+3. `supabase/migrations/0003_add_subcategory.sql` — `subcategory` column
+
+To populate demo data, call the admin-only seed endpoint once:
+
+```
+POST /api/seed   (Authorization: Bearer <ADMIN_PASSWORD>)
 ```
 
 ## How it works

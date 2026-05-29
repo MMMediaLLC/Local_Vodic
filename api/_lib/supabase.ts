@@ -9,12 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL || 'https://placeholder.supabase.co';
 const serviceKey  = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key';
-const anonKey     = process.env.SUPABASE_ANON_KEY || serviceKey;
 
 export const supabaseAdmin = createClient(supabaseUrl, serviceKey, {
-  auth: { persistSession: false },
-});
-
-export const supabaseAnon = createClient(supabaseUrl, anonKey, {
   auth: { persistSession: false },
 });
