@@ -17,7 +17,10 @@ export default function FeaturedProfileCard({ profile }: FeaturedProfileCardProp
           className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
           fallback={<div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200" />}
         />
-        <div className={`absolute -bottom-5 left-4 bg-white p-1 shadow-sm border border-slate-100 z-10 flex items-center justify-center overflow-hidden ${profile.logoShape === 'horizontal' ? 'w-24 h-12 rounded-lg' : 'w-14 h-14 rounded-xl'}`}>
+      </div>
+
+      <div className="p-5 pt-10 flex-grow flex flex-col relative z-20 bg-white">
+        <div className={`absolute -top-7 left-4 bg-white p-1 shadow-sm border border-slate-100 z-10 flex items-center justify-center overflow-hidden ${profile.logoShape === 'horizontal' ? 'w-24 h-12 rounded-lg' : 'w-14 h-14 rounded-xl'}`}>
           <SafeImage
             src={profile.logo}
             alt={`${profile.name} logo`}
@@ -29,9 +32,6 @@ export default function FeaturedProfileCard({ profile }: FeaturedProfileCardProp
             }
           />
         </div>
-      </div>
-      
-      <div className="p-5 pt-10 flex-grow flex flex-col relative z-20 bg-white">
         <h3 className="font-bold text-slate-900 mb-1 leading-tight group-hover:text-blue-600 transition-colors">
           {profile.name}
         </h3>
