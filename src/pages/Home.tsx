@@ -166,15 +166,15 @@ export default function Home() {
 
           {/* Bottom Promo — hidden when searching */}
           {!q && (
-            <div className="border-t border-slate-200 pt-16 mt-16 max-w-4xl mx-auto w-full">
-              <div className="bg-slate-900 rounded-2xl border border-slate-700 p-10 sm:p-16 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
+            <div className="border-t border-slate-200 pt-16 mt-16 w-full">
+              <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-12 sm:px-16 sm:py-14 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
                 <div className="relative z-10 w-full flex flex-col justify-center items-center">
                   <h3 className="font-bold text-3xl sm:text-4xl mb-4">Пријави субјект</h3>
-                  <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed mx-auto max-w-md">
+                  <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed mx-auto max-w-2xl">
                     Додадете го вашиот бизнис или институција во Локалниот водич и бидете достапни за сите граѓани.
                   </p>
                   <Link to="/prijavi-subjekt" className="inline-flex justify-center items-center px-10 py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20 text-lg">
-                    Пријави се бесплатно <ArrowRight className="w-5 h-5 ml-2" />
+                    Пријави се <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </div>
                 <Icons.Store className="w-64 h-64 text-slate-700 absolute -right-10 -bottom-20 z-0 opacity-40 rotate-12" />

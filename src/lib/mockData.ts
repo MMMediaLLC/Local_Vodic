@@ -12,9 +12,8 @@ export const mockCategories: Category[] = CATEGORIES.map(c => ({
 }));
 
 export const mockLocations: Location[] = [
-  { id: '1', name: 'Гостивар',   slug: 'gostivar' },
-  { id: '2', name: 'Боговиње',   slug: 'bogovinje' },
-  { id: '3', name: 'Врапчиште',  slug: 'vrapchishte' },
+  { id: '1', name: 'Гостивар', slug: 'gostivar' },
+  // Боговиње/Врапчиште — ќе се прошират подоцна.
 ];
 
 export const mockProfiles: Profile[] = [

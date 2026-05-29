@@ -20,8 +20,6 @@ const categories = [
 
 const locations = [
   { id: '1', name: 'Гостивар', slug: 'gostivar' },
-  { id: '2', name: 'Боговиње', slug: 'bogovinje' },
-  { id: '3', name: 'Врапчиште', slug: 'vrapchishte' },
 ];
 
 const contacts = [

@@ -15,7 +15,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-slate-600 mb-4 max-w-sm">
-              Најдете локални фирми, услуги, институции и продавници во Гостивар и Полошкиот регион. Проект на Gostivarpress.mk.
+              Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот. Проект на Gostivarpress.mk.
             </p>
           </div>
           
@@ -30,8 +30,7 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-slate-900 mb-4 tracking-tight">За Вашиот бизнис</h3>
             <ul className="space-y-2">
-              <li><Link to="/prijavi-subjekt" className="text-slate-600 hover:text-blue-600 transition-colors">Пријави субјект (Бесплатно)</Link></li>
-              <li><a href="https://gostivarpress.mk/marketing" className="text-slate-600 hover:text-blue-600 transition-colors">Маркетинг и рекламирање</a></li>
+              <li><Link to="/prijavi-subjekt" className="text-slate-600 hover:text-blue-600 transition-colors">Пријави субјект</Link></li>
               <li><Link to="/admin" className="text-slate-600 hover:text-blue-600 transition-colors">Админ Панел</Link></li>
             </ul>
           </div>

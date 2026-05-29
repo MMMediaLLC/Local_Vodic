@@ -78,7 +78,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setData({
             profiles:   (fetchedData.profiles as Profile[]).map(normalizeProfile),
             categories: CONFIG_CATEGORIES, // секогаш од config (новите 10 категории)
-            locations:  fetchedData.locations?.length  > 0 ? fetchedData.locations  : mockLocations,
+            locations:  mockLocations,     // засега само Гостивар
+
             contacts:   fetchedData.contacts?.length   > 0 ? fetchedData.contacts   : mockContacts,
             articles:   fetchedData.articles?.length   > 0 ? fetchedData.articles   : mockArticles,
           });
