@@ -12,8 +12,12 @@ export type Profile = {
   id: string;
   name: string;
   slug: string;
-  category: string;
-  categorySlug: string;
+  category: string;          // back-compat: го носи целосното име на категоријата
+  categorySlug: string;      // канонски slug (нормализиран кон нов id при читање)
+  categoryId?: string;       // нов id на главната категорија
+  categoryName?: string;     // целосно име
+  categoryShortName?: string;// кратко име (за картички)
+  subcategory?: string;      // optional подкатегорија
   location: string;
   shortDescription: string;
   fullDescription: string;

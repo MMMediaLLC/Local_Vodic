@@ -1,6 +1,33 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Category, Profile, Location, UsefulContact, RecommendationArticle } from '../types';
-import { mockCategories, mockProfiles, mockLocations, mockContacts, mockArticles } from './mockData';
+import { mockProfiles, mockLocations, mockContacts, mockArticles } from './mockData';
+import { CATEGORIES, findCategory } from '../data/categories';
+
+// Категориите доаѓаат од централниот config (единствен извор на вистина).
+// Мапирани во Category type за компатибилност со постоечкиот UI (icon/color/slug).
+const CONFIG_CATEGORIES: Category[] = CATEGORIES.map(c => ({
+  id: c.id,
+  name: c.name,
+  slug: c.id,
+  description: c.description,
+  icon: c.icon,
+  color: c.color,
+}));
+
+// Нормализира профил: резолвира главна категорија преку config (нов или стар клуч)
+// и пополнува categoryId/categoryName/categoryShortName/categorySlug конзистентно.
+function normalizeProfile(p: Profile): Profile {
+  const cat = findCategory(p.categorySlug || p.categoryName || p.category);
+  if (!cat) return p;
+  return {
+    ...p,
+    categoryId: cat.id,
+    categoryName: cat.name,
+    categoryShortName: cat.shortName,
+    categorySlug: cat.id,
+    category: cat.name,
+  };
+}
 
 type DataState = {
   categories: Category[];
@@ -35,8 +62,8 @@ function authHeaders(): HeadersInit {
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [data, setData] = useState<DataState>({
-    categories: mockCategories,
-    profiles: mockProfiles,
+    categories: CONFIG_CATEGORIES,
+    profiles: mockProfiles.map(normalizeProfile),
     locations: mockLocations,
     contacts: mockContacts,
     articles: mockArticles,
@@ -49,8 +76,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       .then(fetchedData => {
         if (fetchedData?.profiles?.length > 0) {
           setData({
-            profiles:   fetchedData.profiles,
-            categories: fetchedData.categories?.length > 0 ? fetchedData.categories : mockCategories,
+            profiles:   (fetchedData.profiles as Profile[]).map(normalizeProfile),
+            categories: CONFIG_CATEGORIES, // секогаш од config (новите 10 категории)
             locations:  fetchedData.locations?.length  > 0 ? fetchedData.locations  : mockLocations,
             contacts:   fetchedData.contacts?.length   > 0 ? fetchedData.contacts   : mockContacts,
             articles:   fetchedData.articles?.length   > 0 ? fetchedData.articles   : mockArticles,
@@ -90,7 +117,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       throw new Error(body.error || `Грешка ${res.status} при зачувување`);
     }
     const { profile: saved } = await res.json();
-    setData(prev => ({ ...prev, profiles: [saved ?? profile, ...prev.profiles] }));
+    setData(prev => ({ ...prev, profiles: [normalizeProfile(saved ?? profile), ...prev.profiles] }));
   };
 
   // Ажурирај профил
@@ -107,7 +134,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const { profile: saved } = await res.json().catch(() => ({}));
     setData(prev => ({
       ...prev,
-      profiles: prev.profiles.map(p => p.id === profile.id ? (saved ?? profile) : p),
+      profiles: prev.profiles.map(p => p.id === profile.id ? normalizeProfile(saved ?? profile) : p),
     }));
   };
 
@@ -138,7 +165,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setData(prev => ({
       ...prev,
       profiles: prev.profiles.map(p =>
-        p.id === id ? (saved ?? { ...p, isPending: false }) : p
+        p.id === id ? normalizeProfile(saved ?? { ...p, isPending: false }) : p
       ),
     }));
   };

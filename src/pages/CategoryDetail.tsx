@@ -27,7 +27,10 @@ export default function CategoryDetail() {
       p.isActive !== false &&
       (!slug || p.categorySlug === category?.slug) &&
       (!selectedLocation || p.location === selectedLocation) &&
-      (!q || p.name.toLowerCase().includes(q) || p.shortDescription?.toLowerCase().includes(q))
+      (!q ||
+        p.name.toLowerCase().includes(q) ||
+        p.shortDescription?.toLowerCase().includes(q) ||
+        (p.subcategory || '').toLowerCase().includes(q))
     )
     .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useData } from '../lib/DataContext';
 import { Settings, Plus, Edit, Trash2, Save, FileText, X, Lock, LogOut, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
 import { Profile } from '../types';
+import { findCategory, getSubcategories } from '../data/categories';
 
 const CYR_MAP: Record<string, string> = {
   а:'a',б:'b',в:'v',г:'g',д:'d',ѓ:'gj',е:'e',ж:'zh',з:'z',ѕ:'dz',и:'i',ј:'j',
@@ -150,6 +151,7 @@ export default function Admin() {
       slug: `novo-${newId}`,
       category: categories[0]?.name || '',
       categorySlug: categories[0]?.slug || '',
+      subcategory: '',
       location: 'Гостивар',
       shortDescription: '',
       fullDescription: '',
@@ -189,7 +191,9 @@ export default function Admin() {
     setSaving(true);
     setSaveError('');
 
-    const selectedCategory = categories.find(c => c.name === formData.category);
+    const cat = findCategory(formData.category);
+    // Подкатегорија важи само ако припаѓа на избраната категорија
+    const validSub = cat?.subcategories.includes(formData.subcategory || '') ? formData.subcategory : '';
     const slugNeedsGeneration = !formData.slug
       || formData.slug.startsWith('novo-')
       || formData.slug.startsWith('pending-');
@@ -207,7 +211,12 @@ export default function Admin() {
 
     const profileToSave: Profile = {
       ...formData,
-      categorySlug: selectedCategory?.slug ?? formData.categorySlug ?? '',
+      category:          cat?.name      ?? formData.category ?? '',
+      categoryName:      cat?.name      ?? formData.category ?? '',
+      categoryShortName: cat?.shortName ?? formData.category ?? '',
+      categoryId:        cat?.id        ?? formData.categorySlug ?? '',
+      categorySlug:      cat?.id        ?? formData.categorySlug ?? '',
+      subcategory:       validSub,
       slug: generatedSlug,
       isPending: false,
       createdAt: formData.createdAt ?? new Date().toISOString(),
@@ -403,9 +412,23 @@ export default function Admin() {
                         <input type="text" value={formData.name || ''} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-1">Категорија</label>
-                        <select value={formData.category || ''} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Главна категорија</label>
+                        <select value={formData.category || ''} onChange={e => setFormData({ ...formData, category: e.target.value, subcategory: '' })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                           {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Подкатегорија</label>
+                        <select
+                          value={formData.subcategory || ''}
+                          onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
+                          disabled={getSubcategories(formData.category).length === 0}
+                          className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:bg-slate-100 disabled:text-slate-400"
+                        >
+                          <option value="">Изберете подкатегорија</option>
+                          {getSubcategories(formData.category).map(sub => (
+                            <option key={sub} value={sub}>{sub}</option>
+                          ))}
                         </select>
                       </div>
                       <div>

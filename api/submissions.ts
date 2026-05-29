@@ -10,23 +10,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const b = req.body ?? {};
   const newId = Math.random().toString(36).substring(2, 11);
 
-  // Resolve category_slug by looking up the category name in DB
-  let categorySlug = '';
-  if (b.category) {
-    const { data: cat } = await supabaseAdmin
-      .from('categories')
-      .select('slug')
-      .ilike('name', b.category.trim())
-      .maybeSingle();
-    categorySlug = cat?.slug ?? '';
-  }
-
   const row = {
     id:                  newId,
     slug:                `pending-${newId}`,
     name:                b.name             ?? '',
     category:            b.category         ?? '',
-    category_slug:       categorySlug,
+    category_slug:       '',
+    subcategory:         b.subcategory      || null,
     location:            b.location         ?? '',
     short_description:   b.shortDescription ?? '',
     full_description:    b.fullDescription  ?? '',

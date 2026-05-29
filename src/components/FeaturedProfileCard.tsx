@@ -36,7 +36,11 @@ export default function FeaturedProfileCard({ profile }: FeaturedProfileCardProp
           {profile.name}
         </h3>
         <p className="text-xs text-slate-500 mb-4 font-medium">
-          {profile.category} {profile.location ? `• ${profile.location}` : ''}
+          {[
+            profile.categoryShortName || profile.category,
+            profile.subcategory,
+            profile.location,
+          ].filter(Boolean).join(' • ')}
         </p>
         
         <div className="mb-5 text-sm text-slate-600 line-clamp-2 leading-relaxed">

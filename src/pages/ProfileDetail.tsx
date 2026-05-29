@@ -128,7 +128,7 @@ export default function ProfileDetail() {
             <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 border-b border-slate-100 pb-8">
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight leading-tight">{profile.name}</h1>
-                <p className="text-slate-500 font-medium text-sm sm:text-base">{profile.category} • {profile.location}</p>
+                <p className="text-slate-500 font-medium text-sm sm:text-base">{[profile.categoryName || profile.category, profile.subcategory, profile.location].filter(Boolean).join(' • ')}</p>
                 <div className="mt-3">
                   <VerificationBadge profile={profile} showLabel={true} />
                 </div>

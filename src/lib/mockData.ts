@@ -1,17 +1,15 @@
 import { Category, Profile, Location, UsefulContact, RecommendationArticle } from '../types';
+import { CATEGORIES } from '../data/categories';
 
-export const mockCategories: Category[] = [
-  { id: '1', name: 'Здравство и Медицина',     slug: 'zdravstvo-i-medicina',    description: 'Ординации, аптеки, стоматолози, лаборатории',                  icon: 'HeartPulse',    color: 'blue',   count: 23 },
-  { id: '2', name: 'Градежништво и Мајстори',  slug: 'gradeznistvo-i-majstori', description: 'Градежни материјали, реновирање, водоводџии, електричари',    icon: 'Hammer',        color: 'amber',  count: 45 },
-  { id: '3', name: 'Авто-мото',                slug: 'avto-moto',               description: 'Сервиси, автоделови, гумари, перални, половни возила',         icon: 'Car',           color: 'red',    count: 32 },
-  { id: '4', name: 'Храна и Угостителство',    slug: 'hrana-i-ugostitelstvo',   description: 'Ресторани, кафулиња, брза храна, пекари',                      icon: 'Utensils',      color: 'orange', count: 58 },
-  { id: '5', name: 'Продавници и Трговија',    slug: 'prodavnici-i-trgovija',   description: 'Супермаркети, бутици, бела техника, мебел',                    icon: 'ShoppingBag',   color: 'green',  count: 87 },
-  { id: '6', name: 'Убавина и Нега',           slug: 'ubavina-i-nega',          description: 'Фризерски салони, козметичари, спа, нокти',                    icon: 'Sparkles',      color: 'pink',   count: 34 },
-  { id: '7', name: 'Услуги и Агенции',         slug: 'uslugi-i-agencii',        description: 'Сметководство, осигурување, недвижности, маркетинг',           icon: 'Briefcase',     color: 'slate',  count: 41 },
-  { id: '8', name: 'Едукација и Курсеви',      slug: 'edukacija-i-kursevi',     description: 'Јазични центри, градинки, приватни часови',                    icon: 'GraduationCap', color: 'indigo', count: 18 },
-  { id: '9', name: 'Забава и Настани',         slug: 'zabava-i-nastani',        description: 'Игротеки, фотографи, декорации, организација',                 icon: 'PartyPopper',   color: 'yellow', count: 21 },
-  { id: '10', name: 'Спорт и Рекреација',      slug: 'sport-i-rekreacija',      description: 'Теретани, фитнес, спортска опрема, танц',                      icon: 'Dumbbell',      color: 'emerald',count: 14 },
-];
+// Категориите се деривираат од централниот config (единствен извор на вистина).
+export const mockCategories: Category[] = CATEGORIES.map(c => ({
+  id: c.id,
+  name: c.name,
+  slug: c.id,
+  description: c.description,
+  icon: c.icon,
+  color: c.color,
+}));
 
 export const mockLocations: Location[] = [
   { id: '1', name: 'Гостивар',   slug: 'gostivar' },
@@ -22,7 +20,8 @@ export const mockLocations: Location[] = [
 export const mockProfiles: Profile[] = [
   {
     id: '1', name: 'Стоматолошка ординација Д-р Ана', slug: 'stomatoloshka-ordinacija-dr-ana',
-    category: 'Здравство и Медицина', categorySlug: 'zdravstvo-i-medicina', location: 'Гостивар',
+    category: 'Здравство, Медицина и Фармација', categorySlug: 'zdravstvo-medicina-farmacija',
+    subcategory: 'Стоматолошки ординации', location: 'Гостивар',
     shortDescription: 'Превентивна и реставративна стоматологија.',
     fullDescription: 'Современ стоматолошки центар во срцето на Гостивар. Нудиме сите видови стоматолошки услуги со најсовремена технологија и материјали. Грижата за вашата насмевка е нашиот приоритет.',
     phone: '070 123 456', secondaryPhone: '042 555 666', email: 'info@dentalana.mk', website: 'https://dentalana.mk',
@@ -41,7 +40,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '2', name: 'Поликлиника Полог', slug: 'poliklinika-polog',
-    category: 'Здравство и Медицина', categorySlug: 'zdravstvo-i-medicina', location: 'Гостивар',
+    category: 'Здравство, Медицина и Фармација', categorySlug: 'zdravstvo-medicina-farmacija',
+    subcategory: 'Ординации и специјалисти', location: 'Гостивар',
     shortDescription: 'Комплетни здравствени услуги на едно место.',
     fullDescription: 'Широк спектар на медицински прегледи, лабораториски испитувања и дијагностика. Поликлиника Полог располага со најстручен тим на доктори специјалисти кои ви стојат на располагање 24/7.',
     phone: '042 333 444', secondaryPhone: '075 111 222', website: 'https://poliklinikapolog.mk',
@@ -60,7 +60,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '3', name: 'Градежништво Балкан', slug: 'gradeznistvo-balkan',
-    category: 'Градежништво и Мајстори', categorySlug: 'gradeznistvo-i-majstori', location: 'Врапчиште',
+    category: 'Дом, Градба и Мајсторски Услуги', categorySlug: 'dom-gradba-majstorski-uslugi',
+    subcategory: 'Градежни фирми и изведувачи', location: 'Врапчиште',
     shortDescription: 'Се на едно место за вашиот нов дом.',
     fullDescription: 'Од темел до покрив. Нудиме висококвалитетни градежни материјали со достава, како и препораки за доверливи мајстори.',
     phone: '071 555 666', address: 'Главен пат', workingHours: 'Пон-Саб: 07:00 - 18:00',
@@ -71,7 +72,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '4', name: 'Електро Сервис Сашо', slug: 'elektro-servis-sasho',
-    category: 'Градежништво и Мајстори', categorySlug: 'gradeznistvo-i-majstori', location: 'Гостивар',
+    category: 'Дом, Градба и Мајсторски Услуги', categorySlug: 'dom-gradba-majstorski-uslugi',
+    subcategory: 'Водовод, електрика и молерисување', location: 'Гостивар',
     shortDescription: 'Брза интервенција и поправка на електрични инсталации.',
     fullDescription: 'Професионален електричар со 20 години искуство. Промена на инсталации, поправка на табли, изведба на ново осветлување во станбени и деловни објекти.',
     phone: '075 222 333', address: 'ул. Борче Јовановски', workingHours: '24/7 за итни интервенции',
@@ -80,7 +82,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '5', name: 'Автосервис Тони', slug: 'avtoservis-toni',
-    category: 'Авто-мото', categorySlug: 'avto-moto', location: 'Боговиње',
+    category: 'Авто-мото и Транспорт', categorySlug: 'avto-moto-transport',
+    subcategory: 'Авто сервиси', location: 'Боговиње',
     shortDescription: 'Сервис и дијагностика за сите видови возила.',
     fullDescription: 'Комплетна поправка, компјутерска дијагностика, центрирање и редовен сервис на лесни и тешки моторни возила. Гаранција на квалитет.',
     phone: '071 999 888', address: 'Главен пат Боговиње', workingHours: 'Пон-Саб: 08:00 - 18:00',
@@ -90,7 +93,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '6', name: 'AutoParts Plus', slug: 'autoparts-plus',
-    category: 'Авто-мото', categorySlug: 'avto-moto', location: 'Гостивар',
+    category: 'Авто-мото и Транспорт', categorySlug: 'avto-moto-transport',
+    subcategory: 'Автоделови и опрема', location: 'Гостивар',
     shortDescription: 'Оригинални и заменски авто делови.',
     fullDescription: 'Најголем избор на авто делови и масла по најповолни цени. Застапник за повеќе светски брендови.',
     phone: '078 444 555', address: 'ул. ЈНА бр. 45', workingHours: 'Пон-Саб: 08:30 - 17:00',
@@ -100,7 +104,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '7', name: 'Ресторан Мерак', slug: 'restoran-merak',
-    category: 'Храна и Угостителство', categorySlug: 'hrana-i-ugostitelstvo', location: 'Гостивар',
+    category: 'Храна, Кафулиња и Угостителство', categorySlug: 'hrana-kafulinja-ugostitelstvo',
+    subcategory: 'Ресторани', location: 'Гостивар',
     shortDescription: 'Традиционална македонска кујна и скара на ќумур.',
     fullDescription: 'Најубав амбиент и највкусна храна во градот. Совршено место за семејни ручеци и интимни прослави.',
     phone: '042 111 222', facebook: 'https://facebook.com', address: 'ул. Мајор Чеде Филипоски', workingHours: '10:00 - 24:00',
@@ -114,7 +119,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '8', name: 'Кафе Бар Плоштад', slug: 'kafe-bar-ploshtad',
-    category: 'Храна и Угостителство', categorySlug: 'hrana-i-ugostitelstvo', location: 'Гостивар',
+    category: 'Храна, Кафулиња и Угостителство', categorySlug: 'hrana-kafulinja-ugostitelstvo',
+    subcategory: 'Кафулиња и барови', location: 'Гостивар',
     shortDescription: 'Најубавото кафе во центарот на градот.',
     fullDescription: 'Опуштена атмосфера, одлична музика и врвно еспресо. Нудиме и разни видови на десерти.',
     phone: '075 111 222', address: 'Плоштад Гоце Делчев', workingHours: '07:00 - 01:00',
@@ -124,7 +130,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '9', name: 'Мебел Сити', slug: 'mebel-siti',
-    category: 'Продавници и Трговија', categorySlug: 'prodavnici-i-trgovija', location: 'Гостивар',
+    category: 'Продавници, Трговија и Локални Производи', categorySlug: 'prodavnici-trgovija-lokalni-proizvodi',
+    subcategory: 'Дом, подароци и декорации', location: 'Гостивар',
     shortDescription: 'Сè за вашиот дом.',
     fullDescription: 'Најголем изложбен салон за мебел, осветлување и декорации. Претворете го вашиот простор во топол дом.',
     phone: '042 777 888', website: 'https://mebel-siti.mk', address: 'Индустриска зона', workingHours: '09:00 - 20:00',
@@ -134,7 +141,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '10', name: 'Техно Маркет', slug: 'tehno-market',
-    category: 'Продавници и Трговија', categorySlug: 'prodavnici-i-trgovija', location: 'Гостивар',
+    category: 'Продавници, Трговија и Локални Производи', categorySlug: 'prodavnici-trgovija-lokalni-proizvodi',
+    subcategory: 'Техника, мобилни и електроника', location: 'Гостивар',
     shortDescription: 'Бела техника и електроника.',
     fullDescription: 'Телевизори, лаптопи, бела техника и паметни уреди со гаранција и одлична корисничка поддршка.',
     phone: '042 333 111', address: 'ул. Гоце Делчев', workingHours: '09:00 - 21:00',
@@ -143,7 +151,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '11', name: 'Hair Studio Elegance', slug: 'hair-studio-elegance',
-    category: 'Убавина и Нега', categorySlug: 'ubavina-i-nega', location: 'Гостивар',
+    category: 'Убавина, Нега и Wellness', categorySlug: 'ubavina-nega-wellness',
+    subcategory: 'Фризерски салони', location: 'Гостивар',
     shortDescription: 'Ексклузивен фризерски салон.',
     fullDescription: 'Професионална нега на коса, шишање, фарбање со висококвалитетни препарати.',
     phone: '070 333 444', address: 'ул. Живко Брајковски', workingHours: '10:00 - 18:00',
@@ -153,7 +162,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '12', name: 'Spa Centar Oaza', slug: 'spa-centar-oaza',
-    category: 'Убавина и Нега', categorySlug: 'ubavina-i-nega', location: 'Гостивар',
+    category: 'Убавина, Нега и Wellness', categorySlug: 'ubavina-nega-wellness',
+    subcategory: 'Масажа и wellness услуги', location: 'Гостивар',
     shortDescription: 'Релаксација, масажи и козметички третмани.',
     fullDescription: 'Време е за вас. Уживајте во нашите масажи, третмани на лице и тело во смирувачка атмосфера.',
     phone: '071 888 777', address: 'ул. Вардарска', workingHours: '12:00 - 20:00',
@@ -162,7 +172,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '13', name: 'Агенција Недвижности Плус', slug: 'agencija-nedviznosti-plus',
-    category: 'Услуги и Агенции', categorySlug: 'uslugi-i-agencii', location: 'Гостивар',
+    category: 'Професионални Услуги и Агенции', categorySlug: 'profesionalni-uslugi-agencii',
+    subcategory: 'Недвижности и агенции', location: 'Гостивар',
     shortDescription: 'Сигурен партнер за купување и продавање недвижности.',
     fullDescription: 'Најдобра понуда на станови, куќи и плацеви во Полошкиот регион.',
     phone: '075 444 333', address: 'Булевар Браќа Ѓиноски', workingHours: '08:30 - 16:30',
@@ -172,7 +183,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '14', name: 'Сметководствено Биро Баланс', slug: 'smetkovodstveno-biro-balans',
-    category: 'Услуги и Агенции', categorySlug: 'uslugi-i-agencii', location: 'Гостивар',
+    category: 'Професионални Услуги и Агенции', categorySlug: 'profesionalni-uslugi-agencii',
+    subcategory: 'Сметководство и финансии', location: 'Гостивар',
     shortDescription: 'Професионално сметководство за вашиот бизнис.',
     fullDescription: 'Водење на сметководство, советување за даноци и регистрација на фирми.',
     phone: '076 111 555', address: 'Центар', workingHours: '08:00 - 16:00',
@@ -181,7 +193,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '15', name: 'Едукативен Центар Знаење', slug: 'edukativen-centar-znaenje',
-    category: 'Едукација и Курсеви', categorySlug: 'edukacija-i-kursevi', location: 'Гостивар',
+    category: 'Образование, Курсеви и Развој', categorySlug: 'obrazovanie-kursevi-razvoj',
+    subcategory: 'Јазични школи', location: 'Гостивар',
     shortDescription: 'Курсеви по странски јазици и информатика.',
     fullDescription: 'Одобрени програми за сите возрасти. Подготовка за меѓународни сертификати по англиски и германски јазик.',
     phone: '070 999 000', address: 'ул. Кеј Вардар', workingHours: '16:00 - 21:00',
@@ -190,7 +203,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '16', name: 'Авто Школа Волан', slug: 'avto-shkola-volan',
-    category: 'Едукација и Курсеви', categorySlug: 'edukacija-i-kursevi', location: 'Гостивар',
+    category: 'Образование, Курсеви и Развој', categorySlug: 'obrazovanie-kursevi-razvoj',
+    subcategory: 'Обуки и професионални курсеви', location: 'Гостивар',
     shortDescription: 'Обука за возачи со искусни инструкции.',
     fullDescription: 'Научете да возите безбедно и сигурно. Повеќе од 15 години искуство со нови возила.',
     phone: '071 222 111', address: 'Судска палата', workingHours: '09:00 - 18:00',
@@ -199,7 +213,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '17', name: 'Фото Студио МК', slug: 'foto-studio-mk',
-    category: 'Забава и Настани', categorySlug: 'zabava-i-nastani', location: 'Гостивар',
+    category: 'Забава, Настани и Креативни Услуги', categorySlug: 'zabava-nastani-kreativni-uslugi',
+    subcategory: 'Фото и видео услуги', location: 'Гостивар',
     shortDescription: 'Фотографирање и снимање свадби и прослави.',
     fullDescription: 'Вашите спомени зачувани на врвен начин. Користиме најсовремена опрема за фотографија и видео продукција.',
     phone: '078 999 888', instagram: 'https://instagram.com', address: 'Центар', workingHours: 'По договор',
@@ -209,7 +224,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '18', name: 'Игротека Детски Свет', slug: 'igroteka-detski-svet',
-    category: 'Забава и Настани', categorySlug: 'zabava-i-nastani', location: 'Гостивар',
+    category: 'Забава, Настани и Креативни Услуги', categorySlug: 'zabava-nastani-kreativni-uslugi',
+    subcategory: 'Игротеки и детски забави', location: 'Гостивар',
     shortDescription: 'Најзабавни родендени за вашите најмали.',
     fullDescription: 'Безбеден простор, аниматори и одлична забава. Организација на родендени со храна и пијалоци.',
     phone: '075 555 444', address: 'ул. Дутлок', workingHours: '14:00 - 22:00',
@@ -218,7 +234,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '19', name: 'Фитнес Клуб GymFit', slug: 'fitnes-klub-gymfit',
-    category: 'Спорт и Рекреација', categorySlug: 'sport-i-rekreacija', location: 'Гостивар',
+    category: 'Спорт, Рекреација и Активен Живот', categorySlug: 'sport-rekreacija-aktiven-zivot',
+    subcategory: 'Фитнес центри и теретани', location: 'Гостивар',
     shortDescription: 'Најсовремена теретана и фитнес програми.',
     fullDescription: 'Професионални справи, групни тренинзи и лични тренери. Вашето здравје на прво место.',
     phone: '070 333 222', address: 'Спортска Сала', workingHours: '07:00 - 23:00',
@@ -228,7 +245,8 @@ export const mockProfiles: Profile[] = [
   },
   {
     id: '20', name: 'Спортска Опрема Sport+', slug: 'sportska-oprema-sport-plus',
-    category: 'Спорт и Рекреација', categorySlug: 'sport-i-rekreacija', location: 'Гостивар',
+    category: 'Спорт, Рекреација и Активен Живот', categorySlug: 'sport-rekreacija-aktiven-zivot',
+    subcategory: 'Спортска опрема и облека', location: 'Гостивар',
     shortDescription: 'Облека и обувки за сите спортови.',
     fullDescription: 'Брендирани патики, тренерки и реквизити. Секогаш најновите колекции.',
     phone: '042 123 456', address: 'ул. ЈНА', workingHours: '09:00 - 20:00',

@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { ArrowLeft, Building, MapPin, Phone, Globe, CheckCircle2, ShieldCheck, TrendingUp, Users, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CATEGORIES, getSubcategories } from '../data/categories';
 
 const WEB3FORMS_KEY = 'fea503c4-271d-4cca-a970-3de6546b9f6b';
 
@@ -12,6 +13,7 @@ export default function SubmitSubject() {
   // Form fields
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
   const [location, setLocation] = useState('');
   const [phone, setPhone] = useState('');
   const [secondaryPhone, setSecondaryPhone] = useState('');
@@ -34,7 +36,7 @@ export default function SubmitSubject() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, category, location, phone, secondaryPhone, email,
+          name, category, subcategory, location, phone, secondaryPhone, email,
           address, workingHours, website, facebook, instagram,
           shortDescription: shortDesc, fullDescription: fullDesc,
         }),
@@ -50,6 +52,7 @@ export default function SubmitSubject() {
           from_name: 'GPRESS Локален водич',
           '📌 Ime': name,
           '🗂 Kategorija': category,
+          '🏷 Potkategorija': subcategory || '—',
           '📍 Lokacija': location,
           '📞 Telefon': phone,
           '📞 Vtor telefon': secondaryPhone || '—',
@@ -134,19 +137,17 @@ export default function SubmitSubject() {
                       <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Автосервис Ибро" />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">Категорија <span className="text-red-500">*</span></label>
-                      <select value={category} onChange={e => setCategory(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700">
-                        <option value="">Избери категорија...</option>
-                        <option value="Здравство и Медицина">Здравство и Медицина</option>
-                        <option value="Градежништво и Мајстори">Градежништво и Мајстори</option>
-                        <option value="Авто-мото">Авто-мото</option>
-                        <option value="Храна и Угостителство">Храна и Угостителство</option>
-                        <option value="Продавници и Трговија">Продавници и Трговија</option>
-                        <option value="Убавина и Нега">Убавина и Нега</option>
-                        <option value="Услуги и Агенции">Услуги и Агенции</option>
-                        <option value="Едукација и Курсеви">Едукација и Курсеви</option>
-                        <option value="Забава и Настани">Забава и Настани</option>
-                        <option value="Спорт и Рекреација">Спорт и Рекреација</option>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Главна категорија <span className="text-red-500">*</span></label>
+                      <select value={category} onChange={e => { setCategory(e.target.value); setSubcategory(''); }} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700">
+                        <option value="">Изберете категорија</option>
+                        {CATEGORIES.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Подкатегорија</label>
+                      <select value={subcategory} onChange={e => setSubcategory(e.target.value)} disabled={getSubcategories(category).length === 0} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-700 disabled:bg-slate-100 disabled:text-slate-400">
+                        <option value="">Изберете подкатегорија</option>
+                        {getSubcategories(category).map(sub => <option key={sub} value={sub}>{sub}</option>)}
                       </select>
                     </div>
                     <div>

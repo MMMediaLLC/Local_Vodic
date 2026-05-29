@@ -24,14 +24,14 @@ export default function Home() {
     .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 
   const q = search.trim().toLowerCase();
-  const visibleProfiles = q
-    ? activeProfiles.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.shortDescription?.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        p.location.toLowerCase().includes(q)
-      )
-    : activeProfiles;
+  const matchesQuery = (p: typeof activeProfiles[number]) =>
+    p.name.toLowerCase().includes(q) ||
+    p.shortDescription?.toLowerCase().includes(q) ||
+    (p.categoryName || p.category).toLowerCase().includes(q) ||
+    (p.categoryShortName || '').toLowerCase().includes(q) ||
+    (p.subcategory || '').toLowerCase().includes(q) ||
+    p.location.toLowerCase().includes(q);
+  const visibleProfiles = q ? activeProfiles.filter(matchesQuery) : activeProfiles;
 
   // Категории сортирани по најновиот профил во секоја
   const activeCategories = categories
