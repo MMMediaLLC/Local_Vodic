@@ -122,6 +122,30 @@ export default function ProfileDetail() {
   const mapsUrl = getMapsUrl(profile);
   const embedUrl = getMapsEmbedUrl(profile);
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    const shareData = {
+      title: profile.name,
+      text: `${profile.name} — ${profile.categoryName || profile.category}${profile.location ? `, ${profile.location}` : ''} | GPRESS Локален водич`,
+      url,
+    };
+    // Native споделување (мобилни: WhatsApp, Viber, Messenger...) со fallback на копирање
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        /* корисникот го откажа споделувањето — игнорирај */
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Линкот е копиран!');
+      } catch {
+        alert(url);
+      }
+    }
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen pb-16">
       <LocalBusinessJsonLd profile={profile} />
@@ -135,7 +159,7 @@ export default function ProfileDetail() {
           </Link>
           <button
             className="text-slate-600 hover:text-blue-600 flex items-center gap-2 text-sm font-medium transition-colors"
-            onClick={() => navigator.clipboard.writeText(window.location.href).then(() => alert('Линкот е копиран!'))}
+            onClick={handleShare}
           >
             Сподели <Share2 className="w-4 h-4" />
           </button>
