@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const BASE_URL = 'https://vodic.gostivarpress.mk';
-const DEFAULT_IMAGE = 'https://i.ibb.co/XGVBhgB/1.png';
+const DEFAULT_IMAGE = 'https://gostivarpress.mk/wp-content/uploads/2026/05/lg.jpg';
 
 interface PageMetaOptions {
   title: string;
