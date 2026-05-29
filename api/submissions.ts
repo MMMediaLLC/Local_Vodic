@@ -17,6 +17,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     category:            b.category         ?? '',
     category_slug:       '',
     subcategory:         b.subcategory      || null,
+    edb:                 b.edb              || null,
+    embs:                b.embs             || null,
     location:            b.location         ?? '',
     short_description:   b.shortDescription ?? '',
     full_description:    b.fullDescription  ?? '',

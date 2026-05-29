@@ -32,6 +32,8 @@ export function dbProfileToFrontend(row: any) {
     verificationStatus: row.verification_status ?? 'unverified',
     ...(row.verified_at   && { verifiedAt:   row.verified_at }),
     ...(row.submitted_at  && { submittedAt:  row.submitted_at }),
+    ...(row.edb           && { edb:          row.edb }),
+    ...(row.embs          && { embs:         row.embs }),
     createdAt: row.created_at ?? null,
   };
 }
@@ -68,6 +70,8 @@ export function frontendProfileToDb(p: any) {
     verification_status: p.verificationStatus ?? 'unverified',
     verified_at:         p.verifiedAt         ?? null,
     submitted_at:        p.submittedAt        ?? null,
+    edb:                 p.edb                ?? null,
+    embs:                p.embs               ?? null,
     created_at:          p.createdAt          ?? new Date().toISOString(),
     updated_at:          new Date().toISOString(),
   };

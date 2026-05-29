@@ -502,6 +502,14 @@ export default function Admin() {
                           <option value="horizontal">Хоризонтално (Horizontal)</option>
                         </select>
                       </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">ЕДБ (даночен бр.) <span className="font-normal text-slate-400">— приватно</span></label>
+                        <input type="text" value={formData.edb || ''} onChange={e => setFormData({ ...formData, edb: e.target.value })} placeholder="за верификација" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">ЕМБС (матичен бр.) <span className="font-normal text-slate-400">— приватно</span></label>
+                        <input type="text" value={formData.embs || ''} onChange={e => setFormData({ ...formData, embs: e.target.value })} placeholder="за верификација" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                      </div>
                       <div className="md:col-span-2">
                         <label className="block text-sm font-bold text-slate-700 mb-1">Cover слика (URL)</label>
                         <input type="url" value={formData.coverImage || ''} onChange={e => setFormData({ ...formData, coverImage: e.target.value })} placeholder="https://..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />

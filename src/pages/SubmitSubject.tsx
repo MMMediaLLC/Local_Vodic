@@ -25,6 +25,8 @@ export default function SubmitSubject() {
   const [instagram, setInstagram] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [fullDesc, setFullDesc] = useState('');
+  const [edb, setEdb] = useState('');
+  const [embs, setEmbs] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ export default function SubmitSubject() {
           name, category, subcategory, location, phone, secondaryPhone, email,
           address, workingHours, website, facebook, instagram,
           shortDescription: shortDesc, fullDescription: fullDesc,
+          edb, embs,
         }),
       }).catch(() => {}); // тивко — не е критично ако API не е достапен
 
@@ -64,6 +67,8 @@ export default function SubmitSubject() {
           '📸 Instagram': instagram || '—',
           '📝 Kratok opis': shortDesc,
           '📄 Celos opis': fullDesc,
+          '🧾 EDB': edb || '—',
+          '🏢 EMBS': embs || '—',
         }),
       });
       const json = await res.json();
@@ -227,6 +232,34 @@ export default function SubmitSubject() {
                         <label className="block text-sm font-semibold text-slate-700 mb-2">Instagram профил</label>
                         <input type="url" value={instagram} onChange={e => setInstagram(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="https://instagram.com/..." />
                       </div>
+                    </div>
+                  </div>
+                </section>
+
+                <hr className="border-slate-100" />
+
+                {/* Верификација */}
+                <section>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    Верификација (незадолжително)
+                  </h3>
+                  <div className="flex items-start gap-2 text-sm text-slate-500 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 mb-6">
+                    <ShieldCheck className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <p>
+                      Доколку сакате на вашиот профил да стои ознаката <strong className="text-slate-700">„Верифициран профил"</strong>, потребно е да ги внесете ЕДБ и ЕМБС. Тие служат само за проверка на субјектот и <strong className="text-slate-700">нема да бидат јавно прикажани</strong>. Полињата се незадолжителни.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">ЕДБ (Единствен даночен број)</label>
+                      <input type="text" value={edb} onChange={e => setEdb(e.target.value)} inputMode="numeric" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 4030000000000" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">ЕМБС (Матичен број на субјект)</label>
+                      <input type="text" value={embs} onChange={e => setEmbs(e.target.value)} inputMode="numeric" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: 1234567" />
                     </div>
                   </div>
                 </section>
