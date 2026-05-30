@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import HeroSection from '../components/HeroSection';
-import NewsTicker from '../components/NewsTicker';
 import CityMap from '../components/CityMap';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import SafeImage from '../components/SafeImage';
@@ -69,9 +68,6 @@ export default function Home() {
             </button>
           )}
         </div>
-
-        {/* Тикер со најнови вести (десктоп) */}
-        <NewsTicker />
 
         <div className="space-y-20 flex flex-col w-full">
 
