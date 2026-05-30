@@ -251,11 +251,11 @@ export default function ProfileDetail() {
               )}
 
               {profile.email && (
-                <div className="flex gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100 min-w-0">
+                <div className="flex gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100 min-w-0 sm:col-span-2">
                   <Mail className="w-5 h-5 text-slate-400 mt-0.5 shrink-0" />
                   <div className="min-w-0">
                     <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email</p>
-                    <a href={`mailto:${profile.email}`} className="block font-medium text-slate-900 hover:text-blue-600 text-sm leading-tight truncate" title={profile.email}>{profile.email}</a>
+                    <a href={`mailto:${profile.email}`} className="block font-medium text-slate-900 hover:text-blue-600 text-sm leading-tight whitespace-nowrap" title={profile.email}>{profile.email}</a>
                   </div>
                 </div>
               )}
