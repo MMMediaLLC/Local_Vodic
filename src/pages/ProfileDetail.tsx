@@ -147,18 +147,18 @@ export default function ProfileDetail() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-16">
+    <div className="bg-slate-50 min-h-screen pb-6 sm:pb-16">
       <LocalBusinessJsonLd profile={profile} />
 
       {/* Breadcrumb */}
       <div className="bg-white border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <Link to={`/kategorija/${profile.categorySlug}`} className="text-slate-600 hover:text-blue-600 flex items-center gap-2 text-sm font-medium transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Назад кон {profile.category}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-12 sm:h-14 flex items-center justify-between gap-3">
+          <Link to={`/kategorija/${profile.categorySlug}`} className="text-slate-600 hover:text-blue-600 flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors min-w-0">
+            <ArrowLeft className="w-4 h-4 shrink-0" />
+            <span className="truncate">Назад кон {profile.category}</span>
           </Link>
           <button
-            className="text-slate-600 hover:text-blue-600 flex items-center gap-2 text-sm font-medium transition-colors"
+            className="text-slate-600 hover:text-blue-600 flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors shrink-0"
             onClick={handleShare}
           >
             Сподели <Share2 className="w-4 h-4" />
@@ -204,17 +204,17 @@ export default function ProfileDetail() {
               <div className="flex flex-row gap-3 shrink-0 md:self-end">
                 <a
                   href={`tel:${profile.phone}`}
-                  className="flex-1 md:flex-none inline-flex justify-center items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-colors shadow-sm text-sm"
+                  className="flex-1 md:flex-none inline-flex justify-center items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors shadow-sm text-sm whitespace-nowrap"
                 >
-                  <Phone className="w-4 h-4" /> Јави се
+                  <Phone className="w-4 h-4 shrink-0" /> Јави се
                 </a>
                 <a
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 md:flex-none inline-flex justify-center items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm"
+                  className="flex-1 md:flex-none inline-flex justify-center items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm whitespace-nowrap"
                 >
-                  <MapPin className="w-4 h-4" /> Види на мапа
+                  <MapPin className="w-4 h-4 shrink-0" /> Види на мапа
                 </a>
               </div>
             </div>
