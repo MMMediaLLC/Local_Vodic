@@ -41,7 +41,7 @@ export default function HeroSection() {
 
         {/* 3D мапа — цела ширина под текстот (само на десктоп) */}
         <div
-          className="hidden lg:block relative mt-12 w-full h-[460px] rounded-[2rem] bg-gradient-to-b from-white via-slate-50 to-blue-50/50 overflow-hidden border border-slate-200/80 shadow-2xl shadow-slate-300/40 ring-1 ring-white"
+          className="hidden lg:block relative mt-12 w-full h-[460px] rounded-[2rem] bg-gradient-to-b from-white via-white to-slate-100 overflow-hidden border border-slate-200/80 shadow-2xl shadow-slate-300/40 ring-1 ring-white"
           style={{ perspective: '1300px' }}
         >
           {/* Закосена 3D подлога — градска мапа на Гостивар (одозгора) */}
@@ -121,8 +121,10 @@ export default function HeroSection() {
             </svg>
           </div>
 
-          {/* Мек хоризонт — горниот раб исчезнува */}
-          <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+          {/* Горе чисто бело */}
+          <div className="absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+          {/* Долу сенка — длабочина */}
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-slate-900/20 via-slate-900/8 to-transparent pointer-events-none z-[5]" />
 
           {/* Пинови — стојат вертикално над 3D подот, кликабилни како досега */}
           {mapProfiles.map((profile, index) => {
