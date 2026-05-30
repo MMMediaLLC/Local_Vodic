@@ -293,8 +293,6 @@ export default function ProfileDetail() {
           </div>
         </div>
 
-        <VerificationInfo profile={profile} />
-
         {/* За нас + Услуги + Галерија */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8">
           <h2 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">За нас</h2>
@@ -371,6 +369,9 @@ export default function ProfileDetail() {
             </div>
           </div>
         )}
+
+        {/* Информации за верификација — најдолу */}
+        <VerificationInfo profile={profile} />
 
       </div>
     </div>
