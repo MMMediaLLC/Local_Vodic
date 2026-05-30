@@ -95,13 +95,32 @@ export default function Home() {
                 const categoryProfiles = visibleProfiles
                   .filter(p => p.categorySlug === category.slug)
                   .slice(0, 4);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const CatIcon = (Icons as any)[category.icon] || Icons.Store;
+                const tone = ({
+                  blue: 'bg-blue-50 text-blue-600', emerald: 'bg-emerald-50 text-emerald-600',
+                  orange: 'bg-orange-50 text-orange-600', green: 'bg-green-50 text-green-600',
+                  pink: 'bg-pink-50 text-pink-600', amber: 'bg-amber-50 text-amber-600',
+                  red: 'bg-red-50 text-red-600', indigo: 'bg-indigo-50 text-indigo-600',
+                  yellow: 'bg-yellow-50 text-yellow-600', slate: 'bg-slate-100 text-slate-600',
+                } as Record<string, string>)[category.color] || 'bg-blue-50 text-blue-600';
                 return (
                   <section key={category.id}>
-                    <div className="flex justify-between items-end mb-8 border-b border-slate-300 pb-4 sm:pb-3 gap-4">
-                      <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight text-left">{category.name}</h2>
+                    <div className="flex justify-between items-center mb-7 gap-4">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${tone}`}>
+                          <CatIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </div>
+                        <div className="min-w-0">
+                          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-tight truncate">{category.name}</h2>
+                          {category.description && (
+                            <p className="hidden sm:block text-sm text-slate-500 truncate">{category.description}</p>
+                          )}
+                        </div>
+                      </div>
                       <Link
                         to={`/kategorija/${category.slug}`}
-                        className="text-blue-600 font-bold hover:text-blue-800 flex items-center gap-1 text-[13px] sm:text-sm bg-blue-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors whitespace-nowrap mb-0.5 sm:mb-0"
+                        className="text-blue-600 font-bold hover:text-white hover:bg-blue-600 flex items-center gap-1 text-[13px] sm:text-sm bg-blue-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
                       >
                         Види сите <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-0.5" />
                       </Link>

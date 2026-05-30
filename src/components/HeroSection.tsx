@@ -18,22 +18,30 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="bg-white border-b border-slate-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+    <section className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-b from-blue-50/60 via-white to-white">
+      {/* Меки декоративни сјаеви во заднина */}
+      <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-200/30 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute top-40 -right-20 w-[400px] h-[400px] bg-emerald-200/20 rounded-full blur-3xl" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20 relative">
 
         {/* Наслов + опис — максимално хоризонтално, центрирано */}
         <div className="text-center max-w-5xl mx-auto relative z-10">
-          <h1 className="font-black tracking-tight text-slate-900 mb-3 sm:mb-5 uppercase leading-none text-[clamp(2rem,6vw,4.75rem)]">
-            Локален <span className="text-blue-600">водич</span>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs sm:text-sm font-semibold text-slate-600 mb-5">
+            <Icons.MapPin className="w-4 h-4 text-blue-600" />
+            Гостивар и Полошки регион
+          </span>
+          <h1 className="font-black tracking-tight text-slate-900 mb-4 sm:mb-5 uppercase leading-[0.95] text-[clamp(2.25rem,6.5vw,5rem)]">
+            Локален <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">водич</span>
           </h1>
-          <p className="text-sm sm:text-xl text-slate-600 font-medium leading-snug max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-600 font-medium leading-snug max-w-3xl mx-auto">
             Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот.
           </p>
         </div>
 
         {/* 3D мапа — цела ширина под текстот (само на десктоп) */}
         <div
-          className="hidden lg:block relative mt-14 w-full h-[460px] rounded-3xl bg-gradient-to-b from-white via-slate-50 to-blue-50/50 overflow-hidden border border-slate-100"
+          className="hidden lg:block relative mt-12 w-full h-[460px] rounded-[2rem] bg-gradient-to-b from-white via-slate-50 to-blue-50/50 overflow-hidden border border-slate-200/80 shadow-2xl shadow-slate-300/40 ring-1 ring-white"
           style={{ perspective: '1300px' }}
         >
           {/* Закосена 3D подлога — градска мапа на Гостивар (одозгора) */}
