@@ -2,8 +2,21 @@ import { BadgeCheck, ShieldCheck, Info } from 'lucide-react';
 import { Profile } from '../types';
 import { getEffectiveStatus } from './VerificationBadge';
 
+const MK_MONTHS = [
+  'јануари', 'февруари', 'март', 'април', 'мај', 'јуни',
+  'јули', 'август', 'септември', 'октомври', 'ноември', 'декември',
+];
+
+// ISO датум → „месец година" на македонски (пр. „мај 2026").
+function formatMkDate(iso?: string | null): string | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return null;
+  return `${MK_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 interface VerificationInfoProps {
-  profile: Pick<Profile, 'isVerified' | 'verificationStatus' | 'verifiedAt'>;
+  profile: Pick<Profile, 'isVerified' | 'verificationStatus' | 'verifiedAt' | 'createdAt' | 'updatedAt'>;
 }
 
 export default function VerificationInfo({ profile }: VerificationInfoProps) {
@@ -15,6 +28,13 @@ export default function VerificationInfo({ profile }: VerificationInfoProps) {
   const TitleIcon = isVerified ? BadgeCheck : ShieldCheck;
   const titleIconClass = isVerified ? 'text-blue-500' : 'text-emerald-500';
   const statusLabel = isVerified ? 'Верифициран профил' : 'Проверен субјект';
+
+  // Датум на последна проверка: рачно поставен → последно ажурирање → креирање
+  const checkedDate =
+    formatMkDate(profile.verifiedAt) ||
+    formatMkDate(profile.updatedAt) ||
+    formatMkDate(profile.createdAt) ||
+    'мај 2026';
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-8">
@@ -34,7 +54,7 @@ export default function VerificationInfo({ profile }: VerificationInfoProps) {
         </div>
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Последна проверка:</span>
-          <span>{profile.verifiedAt || 'мај 2026'}.</span>
+          <span>{checkedDate}.</span>
         </div>
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Извор:</span>

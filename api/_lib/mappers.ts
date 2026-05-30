@@ -35,6 +35,7 @@ export function dbProfileToFrontend(row: any) {
     ...(row.edb           && { edb:          row.edb }),
     ...(row.embs          && { embs:         row.embs }),
     createdAt: row.created_at ?? null,
+    updatedAt: row.updated_at ?? null,
   };
 }
 

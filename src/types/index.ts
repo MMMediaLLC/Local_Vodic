@@ -42,6 +42,7 @@ export type Profile = {
   verificationStatus?: 'unverified' | 'verified' | 'checked_subject';
   verifiedAt?: string;
   createdAt?: string;
+  updatedAt?: string;
   edb?: string;   // Единствен даночен број (приватно, за верификација)
   embs?: string;  // Матичен број на субјект (приватно, за верификација)
 };
