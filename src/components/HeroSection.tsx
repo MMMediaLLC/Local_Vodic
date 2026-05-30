@@ -1,28 +1,28 @@
-import { MapPin } from 'lucide-react';
-
 export default function HeroSection() {
   const description =
     'Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот.';
 
   return (
     <>
-      {/* ── МОБИЛЕН — модерна сина картичка ── */}
+      {/* ── МОБИЛЕН — мек син сјај што се стопува во бело кон рабовите ── */}
       <section className="sm:hidden bg-white px-4 pt-5 pb-3">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-600 to-blue-500 text-white px-6 py-8 text-center shadow-xl shadow-blue-600/20">
-          {/* Декоративни сјаеви */}
-          <div className="pointer-events-none absolute -top-12 -right-10 w-44 h-44 bg-white/10 rounded-full blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-16 -left-12 w-44 h-44 bg-blue-300/20 rounded-full blur-2xl" />
-
-          <span className="relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-[11px] font-semibold mb-3">
-            <MapPin className="w-3.5 h-3.5" />
-            Гостивар и Полошки регион
-          </span>
-          <h1 className="relative font-black uppercase leading-[0.95] text-[2rem] mb-3">
-            Локален водич
-          </h1>
-          <p className="relative text-blue-50/90 text-sm leading-snug max-w-sm mx-auto">
-            {description}
-          </p>
+        <div className="relative overflow-hidden rounded-3xl px-6 py-10 text-center">
+          {/* Син glow зад текстот → транспарентно (бело) кон рабовите */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(78% 68% at 50% 42%, rgba(59,130,246,0.30) 0%, rgba(59,130,246,0.12) 45%, transparent 75%)',
+            }}
+          />
+          <div className="relative">
+            <h1 className="font-black uppercase leading-[0.95] text-[2rem] text-slate-900 mb-3">
+              Локален <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">водич</span>
+            </h1>
+            <p className="text-slate-600 text-sm leading-snug max-w-sm mx-auto">
+              {description}
+            </p>
+          </div>
         </div>
       </section>
 
