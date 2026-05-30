@@ -4,26 +4,14 @@ export default function HeroSection() {
 
   return (
     <>
-      {/* ── МОБИЛЕН — мек син сјај што се стопува во бело кон рабовите ── */}
-      <section className="sm:hidden bg-white px-4 pt-5 pb-3">
-        <div className="relative overflow-hidden rounded-3xl px-6 py-10 text-center">
-          {/* Син glow зад текстот → транспарентно (бело) кон рабовите */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(78% 68% at 50% 42%, rgba(59,130,246,0.30) 0%, rgba(59,130,246,0.12) 45%, transparent 75%)',
-            }}
-          />
-          <div className="relative">
-            <h1 className="font-black uppercase leading-[0.95] text-[2rem] text-slate-900 mb-3">
-              Локален <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">водич</span>
-            </h1>
-            <p className="text-slate-600 text-sm leading-snug max-w-sm mx-auto">
-              {description}
-            </p>
-          </div>
-        </div>
+      {/* ── МОБИЛЕН — едноставно (почетно) ── */}
+      <section className="sm:hidden bg-white px-4 py-7 text-center border-b border-slate-100">
+        <h1 className="font-black tracking-tight text-slate-900 mb-2 uppercase leading-none text-[clamp(1.9rem,9vw,2.6rem)]">
+          Локален <span className="text-blue-600">водич</span>
+        </h1>
+        <p className="text-slate-600 text-sm font-medium leading-snug">
+          {description}
+        </p>
       </section>
 
       {/* ── ДЕСКТОП — непроменето ── */}

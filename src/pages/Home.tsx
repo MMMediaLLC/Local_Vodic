@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import HeroSection from '../components/HeroSection';
+import NewsTicker from '../components/NewsTicker';
 import CityMap from '../components/CityMap';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import SafeImage from '../components/SafeImage';
@@ -47,7 +48,10 @@ export default function Home() {
     <div className="bg-slate-50 min-h-screen pb-8">
       <HeroSection />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+
+        {/* Тикер со најнови вести (десктоп) */}
+        <NewsTicker />
 
         {/* Search bar */}
         <div className="relative max-w-xl mx-auto mb-12">
