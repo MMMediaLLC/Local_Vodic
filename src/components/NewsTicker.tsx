@@ -23,25 +23,20 @@ export default function NewsTicker() {
   const loop = [...items, ...items];
 
   return (
-    <div className="hidden sm:flex items-stretch bg-slate-900 text-white rounded-xl overflow-hidden shadow-sm border border-slate-800 mb-8">
-      <a
-        href="https://gostivarpress.mk"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 bg-blue-600 px-4 font-bold text-sm shrink-0 hover:bg-blue-500 transition-colors"
-      >
+    <div className="hidden sm:flex items-stretch bg-white border-y border-slate-200 overflow-hidden">
+      <span className="flex items-center gap-2 bg-blue-600 text-white px-5 font-bold text-sm shrink-0 uppercase tracking-wide">
         <Newspaper className="w-4 h-4" />
         Вести
-      </a>
-      <div className="group relative flex-1 overflow-hidden py-2.5">
-        <div className="flex gap-10 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
+      </span>
+      <div className="group flex-1 overflow-hidden py-3">
+        <div className="flex gap-12 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
           {loop.map((item, i) => (
             <a
               key={i}
               href={item.link || 'https://gostivarpress.mk'}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-slate-200 hover:text-white transition-colors flex items-center gap-2"
+              className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors flex items-center gap-2.5"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
               {item.title}
