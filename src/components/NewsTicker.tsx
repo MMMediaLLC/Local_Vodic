@@ -23,10 +23,10 @@ export default function NewsTicker() {
   const loop = [...items, ...items];
 
   return (
-    <div className="hidden sm:flex items-stretch bg-white border-y border-slate-200 overflow-hidden">
-      <span className="flex items-center gap-2 bg-blue-600 text-white px-5 font-bold text-sm shrink-0 uppercase tracking-wide">
-        <Newspaper className="w-4 h-4" />
-        Вести
+    <div className="hidden sm:flex items-stretch bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-10">
+      <span className="flex items-center gap-2 bg-blue-600 text-white px-5 font-bold text-sm shrink-0">
+        <Newspaper className="w-4 h-4 shrink-0" />
+        Најнови вести на Gostivarpress.mk:
       </span>
       <div className="group flex-1 overflow-hidden py-3">
         <div className="flex gap-12 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">

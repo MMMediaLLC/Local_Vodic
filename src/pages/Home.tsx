@@ -48,13 +48,10 @@ export default function Home() {
     <div className="bg-slate-50 min-h-screen pb-8">
       <HeroSection />
 
-      {/* Тикер со најнови вести — од крај до крај (десктоп) */}
-      <NewsTicker />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
 
         {/* Search bar */}
-        <div className="relative max-w-xl mx-auto mb-12">
+        <div className="relative max-w-xl mx-auto mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
           <input
             type="search"
@@ -72,6 +69,9 @@ export default function Home() {
             </button>
           )}
         </div>
+
+        {/* Тикер со најнови вести (десктоп) */}
+        <NewsTicker />
 
         <div className="space-y-20 flex flex-col w-full">
 
