@@ -36,25 +36,80 @@ export default function HeroSection() {
           className="hidden lg:block relative mt-14 w-full h-[460px] rounded-3xl bg-gradient-to-b from-white via-slate-50 to-blue-50/50 overflow-hidden border border-slate-100"
           style={{ perspective: '1300px' }}
         >
-          {/* Закосена 3D подлога (grid + патеки) што се протега во далечина */}
+          {/* Закосена 3D подлога — градска мапа на Гостивар (одозгора) */}
           <div
             className="absolute inset-x-0 bottom-0 h-[150%] origin-bottom"
             style={{ transform: 'rotateX(58deg) scale(1.35)', transformOrigin: 'center bottom' }}
           >
-            <div
-              className="absolute inset-0 opacity-60"
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 1000 600"
+              fill="none"
+              preserveAspectRatio="none"
               style={{
-                backgroundImage:
-                  'linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)',
-                backgroundSize: '46px 46px',
-                maskImage: 'linear-gradient(to top, black 30%, transparent 90%)',
-                WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 90%)',
+                maskImage: 'linear-gradient(to top, black 28%, transparent 92%)',
+                WebkitMaskImage: 'linear-gradient(to top, black 28%, transparent 92%)',
               }}
-            />
-            <svg className="absolute inset-0 w-full h-full text-blue-200/50" viewBox="0 0 1000 500" fill="none" preserveAspectRatio="none">
-              <path d="M-50 250 C 250 200, 400 350, 650 250 S 950 200, 1100 300" stroke="currentColor" strokeWidth="26" strokeLinecap="round" />
-              <path d="M150 -50 C 250 200, 100 350, 350 550" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
-              <path d="M700 -50 C 650 250, 850 350, 800 550" stroke="currentColor" strokeWidth="16" strokeLinecap="round" />
+            >
+              {/* Ситна мрежа на блокови (заднина) */}
+              <g stroke="#e2e8f0" strokeWidth="1">
+                {Array.from({ length: 21 }).map((_, i) => (
+                  <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="600" />
+                ))}
+                {Array.from({ length: 13 }).map((_, i) => (
+                  <line key={`h${i}`} x1="0" y1={i * 50} x2="1000" y2={i * 50} />
+                ))}
+              </g>
+
+              {/* Паркови / зеленило */}
+              <g fill="#bbf7d0" opacity="0.7">
+                <rect x="120" y="90" width="150" height="110" rx="14" />
+                <circle cx="760" cy="160" r="70" />
+                <rect x="560" y="380" width="180" height="120" rx="16" />
+              </g>
+
+              {/* Река Вардар */}
+              <path
+                d="M-40 120 C 200 180, 260 300, 480 340 S 820 420, 1080 380"
+                stroke="#7dd3fc" strokeWidth="26" strokeLinecap="round" opacity="0.8"
+              />
+              <path
+                d="M-40 120 C 200 180, 260 300, 480 340 S 820 420, 1080 380"
+                stroke="#38bdf8" strokeWidth="10" strokeLinecap="round" opacity="0.5"
+              />
+
+              {/* Главни булевари */}
+              <g stroke="#cbd5e1" strokeWidth="14" strokeLinecap="round">
+                <path d="M0 300 H 1000" />
+                <path d="M500 0 V 600" />
+                <path d="M80 560 C 300 400, 650 480, 980 230" />
+              </g>
+              {/* Бели линии на булеварите */}
+              <g stroke="#f8fafc" strokeWidth="2.5" strokeDasharray="14 14" strokeLinecap="round">
+                <path d="M0 300 H 1000" />
+                <path d="M500 0 V 600" />
+              </g>
+
+              {/* Споредни улици (дијагонали) */}
+              <g stroke="#dbe2ea" strokeWidth="6" strokeLinecap="round" opacity="0.9">
+                <path d="M250 0 V 600" />
+                <path d="M750 0 V 600" />
+                <path d="M0 150 H 1000" />
+                <path d="M0 450 H 1000" />
+              </g>
+
+              {/* Градски блокови (згради) */}
+              <g fill="#eef2f7" stroke="#dbe2ea" strokeWidth="2">
+                <rect x="320" y="120" width="120" height="90" rx="6" />
+                <rect x="560" y="120" width="120" height="90" rx="6" />
+                <rect x="320" y="330" width="120" height="90" rx="6" />
+                <rect x="800" y="330" width="120" height="90" rx="6" />
+                <rect x="120" y="330" width="110" height="90" rx="6" />
+              </g>
+
+              {/* Кружен тек (плоштад) во центар */}
+              <circle cx="500" cy="300" r="40" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="10" />
+              <circle cx="500" cy="300" r="16" fill="#bbf7d0" />
             </svg>
           </div>
 
