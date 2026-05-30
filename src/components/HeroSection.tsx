@@ -1,8 +1,10 @@
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden border-b border-slate-100 bg-white sm:bg-gradient-to-b sm:from-white sm:via-white sm:to-blue-50/70">
-      {/* Меки декоративни сјаеви — само на десктоп */}
-      <div className="hidden sm:block pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-blue-200/25 rounded-full blur-3xl" />
+      {/* Чисто бел премин на врвот — се слева со мени барот */}
+      <div className="hidden sm:block pointer-events-none absolute inset-x-0 top-0 h-28 bg-white z-[1]" />
+      {/* Мек декоративен син сјај — само долниот дел, на десктоп */}
+      <div className="hidden sm:block pointer-events-none absolute -bottom-20 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-blue-200/25 rounded-full blur-3xl" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 relative">
         <div className="text-center max-w-5xl mx-auto relative z-10">
