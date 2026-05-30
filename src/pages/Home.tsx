@@ -44,10 +44,10 @@ export default function Home() {
     });
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
+    <div className="bg-slate-50 min-h-screen pb-8">
       <HeroSection />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
 
         {/* Search bar */}
         <div className="relative max-w-xl mx-auto mb-12">
@@ -167,14 +167,14 @@ export default function Home() {
 
           {/* Bottom Promo — hidden when searching */}
           {!q && (
-            <div className="border-t border-slate-200 pt-16 mt-16 w-full">
-              <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-12 sm:px-16 sm:py-14 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
+            <div className="border-t border-slate-200 pt-12 mt-12 w-full">
+              <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-8 sm:px-12 sm:py-9 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
                 <div className="relative z-10 w-full flex flex-col justify-center items-center">
-                  <h3 className="font-bold text-3xl sm:text-4xl mb-4">Пријави субјект</h3>
-                  <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed mx-auto max-w-2xl">
+                  <h3 className="font-bold text-2xl sm:text-3xl mb-2.5">Пријави субјект</h3>
+                  <p className="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed mx-auto max-w-4xl">
                     Додадете го вашиот бизнис или институција во Локалниот водич и бидете достапни за сите граѓани.
                   </p>
-                  <Link to="/prijavi-subjekt" className="inline-flex justify-center items-center px-10 py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20 text-lg">
+                  <Link to="/prijavi-subjekt" className="inline-flex justify-center items-center px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20">
                     Пријави се <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </div>

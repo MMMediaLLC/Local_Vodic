@@ -32,7 +32,7 @@ export default function Header() {
         />
         {/* Десктоп */}
         <img
-          src="https://gostivarpress.mk/wp-content/uploads/2026/05/r4.jpg"
+          src="https://gostivarpress.mk/wp-content/uploads/2026/05/gpress-lokalen-vodic.jpg"
           alt="GPRESS Локален водич"
           className="hidden sm:block w-full h-auto"
         />

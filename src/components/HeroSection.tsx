@@ -9,7 +9,7 @@ export default function HeroSection() {
           <h1 className="font-black tracking-tight text-slate-900 mb-4 sm:mb-5 uppercase leading-[0.95] text-[clamp(2.25rem,6.5vw,5rem)]">
             Локален <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">водич</span>
           </h1>
-          <p className="text-base sm:text-xl text-slate-600 font-medium leading-snug max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-600 font-medium leading-snug max-w-4xl mx-auto">
             Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот.
           </p>
         </div>
