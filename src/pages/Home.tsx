@@ -171,8 +171,8 @@ export default function Home() {
 
           {/* Bottom Promo — hidden when searching */}
           {!q && (
-            <div className="border-t border-slate-200 pt-12 mt-12 w-full">
-              <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-8 sm:px-12 sm:py-9 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
+            <div className="border-t border-slate-200 pt-7 mt-7 sm:pt-12 sm:mt-12 w-full">
+              <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-6 sm:px-12 sm:py-9 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
                 <div className="relative z-10 w-full flex flex-col justify-center items-center">
                   <h3 className="font-bold text-2xl sm:text-3xl mb-2.5">Пријави субјект</h3>
                   <p className="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed mx-auto max-w-4xl">
