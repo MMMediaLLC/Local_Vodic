@@ -16,7 +16,7 @@ export default function Home() {
     canonicalPath: '/',
   });
 
-  const { categories, profiles: allProfiles, articles } = useData();
+  const { categories, profiles: allProfiles, articles, isLoading } = useData();
   const [search, setSearch] = useState('');
 
   // Само активни и одобрени профили, сортирани последно додаден прв
@@ -69,7 +69,14 @@ export default function Home() {
           )}
         </div>
 
-        <div className="space-y-20 flex flex-col w-full">
+        {/* Loading — додека податоците се вчитуваат (спречува трепкање при освежување) */}
+        {isLoading && (
+          <div className="flex justify-center py-24">
+            <div className="w-8 h-8 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin" />
+          </div>
+        )}
+
+        <div className={`space-y-20 flex flex-col w-full ${isLoading ? 'hidden' : ''}`}>
 
           {/* Search results */}
           {q && (
