@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import CityMap from '../components/CityMap';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Search, X } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { usePageMeta } from '../lib/usePageMeta';
+import { CATEGORIES } from '../data/categories';
 
 export default function Home() {
   usePageMeta({
@@ -18,6 +19,13 @@ export default function Home() {
 
   const { categories, profiles: allProfiles, articles, isLoading } = useData();
   const [search, setSearch] = useState('');
+  const [showChips, setShowChips] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => { if (window.scrollY > 30) setShowChips(true); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Само активни и одобрени профили, сортирани последно додаден прв
   const activeProfiles = allProfiles
@@ -52,6 +60,7 @@ export default function Home() {
         onChange={e => setSearch(e.target.value)}
         placeholder="Пребарај фирми, услуги, категории..."
         className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 transition-all"
+        onFocus={() => setShowChips(true)}
       />
       {search && (
         <button
@@ -67,6 +76,23 @@ export default function Home() {
   return (
     <div className="bg-slate-50 min-h-screen pb-8">
       <HeroSection searchSlot={searchBar} />
+
+      {/* Category chips — мобилен, sticky, се pojavuva при scroll или focus на пребарувач */}
+      {showChips && (
+        <div className="sm:hidden sticky top-0 z-30 bg-white border-b border-slate-100 shadow-sm px-4 py-3">
+          <div className="flex overflow-x-auto gap-2 no-scrollbar">
+            {activeCategories.map(cat => (
+              <Link
+                key={cat.id}
+                to={`/kategorija/${cat.slug}`}
+                className="shrink-0 px-3.5 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 rounded-full text-slate-700 font-semibold text-sm whitespace-nowrap transition-colors"
+              >
+                {CATEGORIES.find(c => c.id === cat.slug)?.shortName ?? cat.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-10 pb-2">
 
