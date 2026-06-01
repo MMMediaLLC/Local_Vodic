@@ -11,29 +11,14 @@ interface Props {
 export default function HeroSection({ searchSlot }: Props) {
   return (
     <>
-      {/* ── МОБИЛЕН — Airbnb-стил fullbleed фото ── */}
-      <section className="sm:hidden relative overflow-hidden border-b border-slate-200" style={{ minHeight: '200px' }}>
-        {/* Background photo */}
-        {HERO_PHOTO_URL && (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${HERO_PHOTO_URL})` }}
-          />
-        )}
-        {/* Fallback gradient shown when no photo is set */}
-        {!HERO_PHOTO_URL && (
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700" />
-        )}
-        {/* Dark overlay — stronger at bottom so search bar stays readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/65" />
-
-        {/* Content */}
-        <div className="relative z-10 px-4 pt-8 pb-6 flex flex-col items-center text-center">
-          <h1 className="font-black tracking-tight text-white uppercase leading-none text-[clamp(2rem,9.5vw,2.8rem)] drop-shadow-md mb-1">
-            Локален <span className="text-blue-400">водич</span>
+      {/* ── МОБИЛЕН — бела картичка на сив фон ── */}
+      <section className="sm:hidden flex items-center justify-center bg-slate-100 min-h-[calc(100dvh-8rem)] px-4">
+        <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg px-6 py-7 flex flex-col gap-3">
+          <h1 className="font-black tracking-tight text-slate-900 uppercase leading-none text-[clamp(1.9rem,9vw,2.6rem)] text-center">
+            Локален <span className="text-blue-600">водич</span>
           </h1>
-          <p className="text-white/70 text-xs font-medium mb-4 tracking-wide uppercase">
-            Гостивар &amp; Полог
+          <p className="text-slate-500 text-sm font-medium text-center leading-tight">
+            Гостивар и Полог — фирми, услуги, контакти
           </p>
           {searchSlot}
         </div>
