@@ -6,7 +6,7 @@ export default function HeroSection() {
     <>
       {/* ── МОБИЛЕН — едноставно (почетно) ── */}
       <section className="sm:hidden bg-white px-4 py-7 text-center border-b border-slate-100">
-        <h1 className="font-black tracking-tight text-slate-900 mb-2 uppercase leading-none text-[clamp(1.9rem,9vw,2.6rem)]">
+        <h1 className="font-display font-[900] tracking-tight text-slate-900 mb-2 uppercase leading-none text-[clamp(2.2rem,10.5vw,3rem)]">
           Локален <span className="text-blue-600">водич</span>
         </h1>
         <p className="text-slate-600 text-sm font-medium leading-snug">
@@ -23,7 +23,7 @@ export default function HeroSection() {
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 lg:py-16 relative">
           <div className="text-center max-w-5xl mx-auto relative z-10">
-            <h1 className="font-black tracking-tight text-slate-900 mb-5 uppercase leading-[0.95] text-[clamp(2.25rem,6.5vw,5rem)]">
+            <h1 className="font-display font-[900] tracking-tight text-slate-900 mb-5 uppercase leading-[0.95] text-[clamp(2.25rem,6.5vw,5rem)]">
               Локален <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">водич</span>
             </h1>
             <p className="text-xl text-slate-600 font-medium leading-snug max-w-4xl mx-auto">
