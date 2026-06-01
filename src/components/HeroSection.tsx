@@ -8,14 +8,14 @@ export default function HeroSection({ searchSlot }: Props) {
   return (
     <>
       {/* ── МОБИЛЕН ── */}
-      <section className="sm:hidden flex flex-col justify-center bg-white min-h-[calc(100dvh-8rem)] px-5">
-        <p className="text-[11px] font-bold tracking-[0.2em] text-blue-600 uppercase mb-2">
-          Гостивар · Полог
-        </p>
-        <h1 className="font-black text-slate-900 uppercase leading-[0.88] tracking-tight text-[clamp(3rem,16vw,4.5rem)] mb-6">
-          Локален<br />водич
+      <section className="sm:hidden flex flex-col justify-center bg-white min-h-[calc(100dvh-8rem)]">
+        <h1 className="font-black uppercase leading-[0.92] tracking-tight text-[clamp(3.2rem,17vw,4.8rem)] mb-5">
+          <span className="block px-5 text-slate-900 pb-1">Локален</span>
+          <span className="block px-5 py-2 bg-blue-600 text-white">Водич</span>
         </h1>
-        {searchSlot}
+        <div className="px-5">
+          {searchSlot}
+        </div>
       </section>
 
       {/* ── ДЕСКТОП — непроменето ── */}
