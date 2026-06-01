@@ -7,13 +7,14 @@ interface Props {
 export default function HeroSection({ searchSlot }: Props) {
   return (
     <>
-      {/* ── МОБИЛЕН — лого + пребарувач, ништо друго ── */}
-      <section className="sm:hidden flex flex-col items-center justify-center bg-white min-h-[calc(100dvh-8rem)] px-6 gap-5">
-        <img
-          src="https://gostivarpress.mk/wp-content/uploads/2026/05/lg.jpg"
-          alt="GPRESS Локален водич"
-          className="w-44 h-auto"
-        />
+      {/* ── МОБИЛЕН ── */}
+      <section className="sm:hidden flex flex-col justify-center bg-white min-h-[calc(100dvh-8rem)] px-5">
+        <p className="text-[11px] font-bold tracking-[0.2em] text-blue-600 uppercase mb-2">
+          Гостивар · Полог
+        </p>
+        <h1 className="font-black text-slate-900 uppercase leading-[0.88] tracking-tight text-[clamp(3rem,16vw,4.5rem)] mb-6">
+          Локален<br />водич
+        </h1>
         {searchSlot}
       </section>
 
