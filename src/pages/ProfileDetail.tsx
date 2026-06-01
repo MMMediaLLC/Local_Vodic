@@ -90,17 +90,26 @@ function LocalBusinessJsonLd({ profile }: { profile: any }) {
 
 export default function ProfileDetail() {
   const { slug } = useParams();
-  const { profiles } = useData();
+  const { profiles, isLoading } = useData();
   const profile = profiles.find(p => p.slug === slug && !p.isPending && p.isActive !== false);
 
   usePageMeta({
-    title: profile ? profile.name : 'Профилот не е пронајден',
+    title: profile ? profile.name : 'Локален водич',
     description: profile
       ? `${profile.shortDescription || profile.fullDescription} — ${profile.category}, ${profile.location}`
       : undefined,
     image: profile?.coverImage || profile?.logo,
     canonicalPath: profile ? `/profil/${profile.slug}` : undefined,
   });
+
+  // Додека податоците се вчитуваат — прикажи loading наместо 404 (спречува трепкање при освежување)
+  if (!profile && isLoading) {
+    return (
+      <div className="bg-slate-50 min-h-screen flex items-center justify-center py-24">
+        <div className="w-8 h-8 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!profile) {
     return (
