@@ -3,13 +3,11 @@ import { useState } from 'react';
 import { useData } from '../lib/DataContext';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import { usePageMeta } from '../lib/usePageMeta';
-import { Search, X } from 'lucide-react';
 
 export default function CategoryDetail() {
   const { slug } = useParams();
   const { categories, locations, profiles: allProfiles } = useData();
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
 
   const category = categories.find(c => c.slug === slug) || categories[0];
 
@@ -19,18 +17,12 @@ export default function CategoryDetail() {
     canonicalPath: `/kategorija/${slug}`,
   });
 
-  const q = search.trim().toLowerCase();
-
   const profiles = allProfiles
     .filter(p =>
       !p.isPending &&
       p.isActive !== false &&
       (!slug || p.categorySlug === category?.slug) &&
-      (!selectedLocation || p.location === selectedLocation) &&
-      (!q ||
-        p.name.toLowerCase().includes(q) ||
-        p.shortDescription?.toLowerCase().includes(q) ||
-        (p.subcategory || '').toLowerCase().includes(q))
+      (!selectedLocation || p.location === selectedLocation)
     )
     .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 
@@ -53,25 +45,8 @@ export default function CategoryDetail() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* Filters row */}
+        {/* Filters row — локации */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          {/* Search */}
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-            <input
-              type="search"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Пребарај во категоријата..."
-              className="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800 placeholder-slate-400"
-            />
-            {search && (
-              <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
           {/* Location chips */}
           <div className="flex flex-wrap gap-2">
             <button
@@ -93,7 +68,7 @@ export default function CategoryDetail() {
         </div>
 
         {/* Count */}
-        {(q || selectedLocation) && (
+        {selectedLocation && (
           <p className="text-sm text-slate-500 mb-5">
             {profiles.length === 0
               ? 'Нема резултати.'
@@ -109,9 +84,7 @@ export default function CategoryDetail() {
           </div>
         ) : (
           <div className="bg-white p-12 rounded-2xl border border-slate-200 text-center">
-            <p className="font-medium text-lg text-slate-400">
-              {q ? `Нема профили за „${search}"` : 'Нема профили во оваа категорија.'}
-            </p>
+            <p className="font-medium text-lg text-slate-400">Нема профили во оваа категорија.</p>
           </div>
         )}
       </div>
