@@ -51,14 +51,22 @@ function getMapsUrl(profile: { googleMapsUrl?: string; name: string; address: st
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
-function getMapsEmbedUrl(profile: { googleMapsUrl?: string; name: string; address: string; location: string }) {
+function getMapsEmbedUrl(profile: { googleMapsUrl?: string; mapEmbed?: string; name: string; address: string; location: string }) {
+  // 0) Рачно подесена мапа (приоритет) — прифаќа цел <iframe> код или само URL
+  if (profile.mapEmbed && profile.mapEmbed.trim()) {
+    const raw = profile.mapEmbed.trim();
+    const srcMatch = raw.match(/src=["']([^"']+)["']/i);
+    if (srcMatch) return srcMatch[1];           // залепен цел iframe → извлечи src
+    if (/^https?:\/\//i.test(raw)) return raw;  // залепен само URL
+  }
+
   const url = profile.googleMapsUrl ?? '';
   // 1) Веќе embed код — користи директно
   if (url.includes('/embed') || url.includes('output=embed')) return url;
-  // 2) Точни координати — точен pin (најсигурно)
+  // 2) Точни координати — точен pin
   const coords = extractCoords(url);
   if (coords) return `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=16&output=embed`;
-  // 3) Fallback — текст-пребарување по име+адреса (може да најде приближно)
+  // 3) Fallback — текст-пребарување по име+адреса
   const query = encodeURIComponent(`${profile.name} ${profile.address} ${profile.location}`);
   return `https://maps.google.com/maps?q=${query}&output=embed`;
 }

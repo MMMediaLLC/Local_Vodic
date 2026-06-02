@@ -492,6 +492,11 @@ export default function Admin() {
                         <p className="text-xs text-slate-400 mt-1">За точен пин: внеси координати (пр. <span className="font-mono">41.7976, 20.9123</span>) или залепи Google Maps линк од лентата за адреса. Десен клик на локацијата во Google Maps → кликни на координатите за да ги копираш.</p>
                       </div>
                       <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1">Мапа во профил (рачно подесување)</label>
+                        <textarea value={formData.mapEmbed || ''} onChange={e => setFormData({ ...formData, mapEmbed: e.target.value })} rows={2} placeholder='Залепи „Embed a map" код од Google Maps (доколку долната мапа вади погрешно)' className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-xs" />
+                        <p className="text-xs text-slate-400 mt-1">Само ако долната мапа во профилот не е точна. Google Maps → <strong>Share → Embed a map</strong> → копирај го кодот и залепи го тука. Има приоритет над горното поле за долната мапа.</p>
+                      </div>
+                      <div>
                         <label className="block text-sm font-bold text-slate-700 mb-1">Лого (URL)</label>
                         <input type="text" value={formData.logo || ''} onChange={e => setFormData({ ...formData, logo: e.target.value })} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
                       </div>

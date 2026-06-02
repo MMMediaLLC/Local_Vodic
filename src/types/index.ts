@@ -30,6 +30,7 @@ export type Profile = {
   address: string;
   workingHours?: string;
   googleMapsUrl?: string;
+  mapEmbed?: string;      // рачно подесена мапа за профилот (Google Maps embed iframe/URL)
   logo?: string;
   logoShape?: 'square' | 'horizontal';
   coverImage?: string;
