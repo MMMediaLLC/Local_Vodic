@@ -6,13 +6,13 @@ export default function Header() {
       <Link to="/" className="block">
         {/* Мобилен */}
         <img
-          src="https://gostivarpress.mk/wp-content/uploads/2026/05/lg.jpg"
+          src="https://img.gostivarpress.mk/i/7759b6d1-92e1-4420-acbe-030167a60db6.jpg"
           alt="GPRESS Локален водич"
           className="sm:hidden w-full h-auto block"
         />
         {/* Десктоп */}
         <img
-          src="https://gostivarpress.mk/wp-content/uploads/2026/05/gpress-lokalen-vodic.jpg"
+          src="https://img.gostivarpress.mk/i/5c0199e2-917f-4e7c-8bd8-f90b263426d6.jpg"
           alt="GPRESS Локален водич"
           className="hidden sm:block w-full h-auto"
         />
