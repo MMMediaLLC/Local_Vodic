@@ -27,6 +27,7 @@ export default function SubmitSubject() {
   const [fullDesc, setFullDesc] = useState('');
   const [edb, setEdb] = useState('');
   const [embs, setEmbs] = useState('');
+  const [googleMapsUrl, setGoogleMapsUrl] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ export default function SubmitSubject() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name, category, subcategory, location, phone, secondaryPhone, email,
-          address, workingHours, website, facebook, instagram,
+          address, workingHours, website, facebook, instagram, googleMapsUrl,
           shortDescription: shortDesc, fullDescription: fullDesc,
           edb, embs,
         }),
@@ -61,6 +62,7 @@ export default function SubmitSubject() {
           '📞 Vtor telefon': secondaryPhone || '—',
           '📧 Email': email || '—',
           '🏠 Adresa': address,
+          '🗺 Google Maps': googleMapsUrl || '—',
           '🕐 Rabotno vreme': workingHours || '—',
           '🌐 Web': website || '—',
           '📘 Facebook': facebook || '—',
@@ -195,6 +197,11 @@ export default function SubmitSubject() {
                         <MapPin className="w-4 h-4 text-slate-400" />
                       </label>
                       <input type="text" value={address} onChange={e => setAddress(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: ул. Живко Брајковски бр. 10" />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-semibold text-slate-700 mb-2">Google Maps локација (линк)</label>
+                      <input type="text" value={googleMapsUrl} onChange={e => setGoogleMapsUrl(e.target.value)} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Залепи Google Maps линк до вашето место (опционо)" />
+                      <p className="text-xs text-slate-400 mt-1.5">Незадолжително. Отворете го местото во Google Maps → „Сподели" → копирајте го линкот и залепете го тука, за да ја прикажеме точната локација на профилот.</p>
                     </div>
                   </div>
                 </section>

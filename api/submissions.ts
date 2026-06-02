@@ -26,6 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     secondary_phone:     b.secondaryPhone   || null,
     email:               b.email            || null,
     address:             b.address          ?? '',
+    google_maps_url:     b.googleMapsUrl     || null,
     website:             b.website          || null,
     facebook:            b.facebook         || null,
     instagram:           b.instagram        || null,

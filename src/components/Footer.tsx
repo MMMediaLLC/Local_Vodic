@@ -6,14 +6,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center">
-                <span className="text-white font-bold text-lg leading-none">GP</span>
-              </div>
-              <span className="text-slate-900 font-bold text-xl tracking-tight">
-                Локален водич
-              </span>
-            </div>
+            <Link to="/" className="inline-block mb-4">
+              <img
+                src="https://img.gostivarpress.mk/i/3fda940c-cc62-4f12-9c2f-b425c2c0d6ef.png"
+                alt="GPRESS Локален водич"
+                className="h-12 sm:h-14 w-auto"
+              />
+            </Link>
             <p className="text-slate-600 mb-4 max-w-sm">
               Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот. Проект на Gostivarpress.mk.
             </p>
