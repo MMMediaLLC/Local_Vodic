@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+﻿import { useParams, Link } from 'react-router-dom';
 import { useData } from '../lib/DataContext';
 import { ArrowLeft, Phone, MapPin, Mail, Clock, Globe, Facebook, Share2, Instagram } from 'lucide-react';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
@@ -69,6 +69,13 @@ function getMapsEmbedUrl(profile: { googleMapsUrl?: string; mapEmbed?: string; n
   // 3) Fallback — текст-пребарување по име+адреса
   const query = encodeURIComponent(`${profile.name} ${profile.address} ${profile.location}`);
   return `https://maps.google.com/maps?q=${query}&output=embed`;
+}
+
+const NBSP = String.fromCharCode(160);
+const QUOTE_RE = /[„“”"][^„“”"]*[“”„"]/g;
+// Деловите во наводници остануваат на еден ред (NBSP), па називот не се дели.
+function keepQuotedTogether(name: string): string {
+  return name.replace(QUOTE_RE, function (q) { return q.replace(/ /g, NBSP); });
 }
 
 function LocalBusinessJsonLd({ profile }: { profile: any }) {
@@ -211,7 +218,7 @@ export default function ProfileDetail() {
             {/* Name (цела ширина) + CTA под */}
             <div className="flex flex-col gap-4 border-b border-slate-100 pb-8">
               <div className="w-full min-w-0">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight leading-tight text-balance">{profile.name}</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight leading-tight text-balance">{keepQuotedTogether(profile.name)}</h1>
                 <p className="text-slate-500 font-medium text-sm sm:text-base">{[profile.categoryName || profile.category, profile.subcategory, profile.location].filter(Boolean).join(' • ')}</p>
                 <div className="mt-3">
                   <VerificationBadge profile={profile} showLabel={true} />

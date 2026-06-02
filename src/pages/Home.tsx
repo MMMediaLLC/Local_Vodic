@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import HeroSection from '../components/HeroSection';
 import CityMap from '../components/CityMap';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import SafeImage from '../components/SafeImage';
 import { useData } from '../lib/DataContext';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Search, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { usePageMeta } from '../lib/usePageMeta';
 
@@ -17,29 +16,18 @@ export default function Home() {
   });
 
   const { categories, profiles: allProfiles, articles, isLoading } = useData();
-  const [search, setSearch] = useState('');
 
   // Само активни и одобрени профили, сортирани последно додаден прв
   const activeProfiles = allProfiles
     .filter(p => !p.isPending && p.isActive !== false)
     .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''));
 
-  const q = search.trim().toLowerCase();
-  const matchesQuery = (p: typeof activeProfiles[number]) =>
-    p.name.toLowerCase().includes(q) ||
-    p.shortDescription?.toLowerCase().includes(q) ||
-    (p.categoryName || p.category).toLowerCase().includes(q) ||
-    (p.categoryShortName || '').toLowerCase().includes(q) ||
-    (p.subcategory || '').toLowerCase().includes(q) ||
-    p.location.toLowerCase().includes(q);
-  const visibleProfiles = q ? activeProfiles.filter(matchesQuery) : activeProfiles;
-
   // Категории сортирани по најновиот профил во секоја
   const activeCategories = categories
-    .filter(cat => visibleProfiles.some(p => p.categorySlug === cat.slug))
+    .filter(cat => activeProfiles.some(p => p.categorySlug === cat.slug))
     .sort((a, b) => {
-      const newestA = visibleProfiles.find(p => p.categorySlug === a.slug)?.createdAt ?? '';
-      const newestB = visibleProfiles.find(p => p.categorySlug === b.slug)?.createdAt ?? '';
+      const newestA = activeProfiles.find(p => p.categorySlug === a.slug)?.createdAt ?? '';
+      const newestB = activeProfiles.find(p => p.categorySlug === b.slug)?.createdAt ?? '';
       return newestB.localeCompare(newestA);
     });
 
@@ -47,27 +35,7 @@ export default function Home() {
     <div className="bg-slate-50 min-h-screen pb-0 sm:pb-8">
       <HeroSection />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
-
-        {/* Search bar */}
-        <div className="relative max-w-xl mx-auto mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-          <input
-            type="search"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Пребарај фирми, услуги, категории..."
-            className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 transition-all"
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-2">
 
         {/* Loading — додека податоците се вчитуваат (спречува трепкање при освежување) */}
         {isLoading && (
@@ -78,29 +46,11 @@ export default function Home() {
 
         <div className={`space-y-20 flex flex-col w-full ${isLoading ? 'hidden' : ''}`}>
 
-          {/* Search results */}
-          {q && (
-            <div>
-              <p className="text-slate-500 text-sm mb-6">
-                {visibleProfiles.length === 0
-                  ? 'Нема резултати за „' + search + '"'
-                  : `${visibleProfiles.length} резултат${visibleProfiles.length === 1 ? '' : 'и'} за „${search}"`}
-              </p>
-              {visibleProfiles.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {visibleProfiles.slice(0, 12).map(profile => (
-                    <FeaturedProfileCard key={profile.id} profile={profile} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Categories — hidden when searching */}
-          {!q && (
+          {/* Categories */}
+          {(
             <div className="space-y-16">
               {activeCategories.map(category => {
-                const categoryProfiles = visibleProfiles
+                const categoryProfiles = activeProfiles
                   .filter(p => p.categorySlug === category.slug)
                   .slice(0, 4);
                 return (
@@ -127,8 +77,8 @@ export default function Home() {
             </div>
           )}
 
-          {/* Split row: Најнови / Локални препораки — hidden when searching */}
-          {!q && (
+          {/* Split row: Најнови / Локални препораки */}
+          {(
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-slate-200 pt-16">
               <section>
                 <div className="flex justify-between items-end mb-6 border-b border-slate-300 pb-4 sm:pb-3">
@@ -172,8 +122,8 @@ export default function Home() {
             </div>
           )}
 
-          {/* Bottom Promo — hidden when searching */}
-          {!q && (
+          {/* Bottom Promo */}
+          {(
             <div className="border-t border-slate-200 pt-7 mt-7 sm:pt-12 sm:mt-12 w-full">
               <div className="bg-slate-900 rounded-2xl border border-slate-700 px-8 py-6 sm:px-12 sm:py-9 flex flex-col items-center justify-center relative overflow-hidden text-center text-white shadow-xl shadow-slate-900/10">
                 <div className="relative z-10 w-full flex flex-col justify-center items-center">
@@ -194,11 +144,9 @@ export default function Home() {
         </div>
 
         {/* Декоративна 3D мапа на Гостивар — најдолу (десктоп) */}
-        {!q && (
-          <div className="hidden lg:block mt-20">
-            <CityMap />
-          </div>
-        )}
+        <div className="hidden lg:block mt-20">
+          <CityMap />
+        </div>
       </div>
     </div>
   );
