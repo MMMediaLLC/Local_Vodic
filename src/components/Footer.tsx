@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200 mt-8 sm:mt-16 pt-10 sm:pt-12 pb-8">
+    <footer className="bg-slate-50 border-t border-slate-200 mt-5 sm:mt-16 pt-6 sm:pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="inline-block mb-4">
+            <Link to="/" className="inline-block mb-2 sm:mb-4">
               <img
                 src="https://img.gostivarpress.mk/i/3fda940c-cc62-4f12-9c2f-b425c2c0d6ef.png"
                 alt="GPRESS Локален водич"

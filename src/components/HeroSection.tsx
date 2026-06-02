@@ -9,7 +9,7 @@ export default function HeroSection() {
         <h1 className="font-black tracking-tight text-slate-900 mb-2 uppercase leading-none text-[clamp(1.9rem,9vw,2.6rem)]">
           Локален <span className="text-blue-600">водич</span>
         </h1>
-        <p className="text-slate-600 text-sm font-medium leading-snug">
+        <p className="text-slate-600 text-[13px] font-medium leading-snug max-w-md mx-auto">
           {description}
         </p>
       </section>
