@@ -208,9 +208,9 @@ export default function ProfileDetail() {
               />
             </div>
 
-            {/* Name + CTA */}
-            <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4 border-b border-slate-100 pb-8">
-              <div className="flex-1 min-w-0">
+            {/* Name (цела ширина) + CTA под */}
+            <div className="flex flex-col gap-4 border-b border-slate-100 pb-8">
+              <div className="w-full min-w-0">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight leading-tight">{profile.name}</h1>
                 <p className="text-slate-500 font-medium text-sm sm:text-base">{[profile.categoryName || profile.category, profile.subcategory, profile.location].filter(Boolean).join(' • ')}</p>
                 <div className="mt-3">
@@ -218,7 +218,7 @@ export default function ProfileDetail() {
                 </div>
               </div>
 
-              <div className="flex flex-row gap-3 shrink-0 md:self-end">
+              <div className="flex flex-row gap-3">
                 <a
                   href={`tel:${profile.phone}`}
                   className="flex-1 md:flex-none inline-flex justify-center items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors shadow-sm text-sm whitespace-nowrap"
