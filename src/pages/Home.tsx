@@ -44,7 +44,7 @@ export default function Home() {
     });
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-2 sm:pb-8">
+    <div className="bg-slate-50 min-h-screen pb-0 sm:pb-8">
       <HeroSection />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
@@ -191,10 +191,14 @@ export default function Home() {
             </div>
           )}
 
-          {/* Декоративна 3D мапа на Гостивар — најдолу (десктоп) */}
-          {!q && <CityMap />}
-
         </div>
+
+        {/* Декоративна 3D мапа на Гостивар — најдолу (десктоп) */}
+        {!q && (
+          <div className="hidden lg:block mt-20">
+            <CityMap />
+          </div>
+        )}
       </div>
     </div>
   );
