@@ -23,8 +23,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Невалидно тело на барањето.' });
   }
 
-  if (password === correct) {
-    return res.json({ token: correct });
+  // trim од двете страни — игнорира случајни празни места/нови редови во env var или внесот
+  if (typeof password === 'string' && password.trim() === correct.trim()) {
+    return res.json({ token: correct.trim() });
   }
 
   return res.status(401).json({ error: 'Погрешна лозинка.' });

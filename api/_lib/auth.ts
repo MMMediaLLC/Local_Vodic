@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 export function isAuthorized(req: VercelRequest): boolean {
   const auth  = (req.headers['authorization'] as string) ?? '';
   const token = auth.replace(/^Bearer\s+/i, '').trim();
-  const pwd   = process.env.ADMIN_PASSWORD;
+  const pwd   = (process.env.ADMIN_PASSWORD ?? '').trim();
   return !!pwd && token === pwd;
 }
 
