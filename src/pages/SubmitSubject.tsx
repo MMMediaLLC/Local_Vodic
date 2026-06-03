@@ -121,9 +121,9 @@ export default function SubmitSubject() {
 
           <div className="lg:col-span-2 space-y-8">
             <div>
-              <h1 className="text-4xl font-bold text-slate-900 mb-3 tracking-tight">Внесете податоци за вашиот профил</h1>
+              <h1 className="text-4xl font-bold text-slate-900 mb-3 tracking-tight">Пријавете го вашиот бизнис</h1>
               <p className="text-lg text-slate-600">
-                Пополнете ја формата за да го креираме вашиот профил во Локалниот Водич на Gostivarpress.
+                Пополнете ги податоците за да креираме профил во деловниот директориум. Профилот им помага на граѓаните полесно да ја најдат вашата фирма, услуга, адреса, контакт и работно време.
               </p>
             </div>
 
@@ -256,7 +256,7 @@ export default function SubmitSubject() {
                   <div className="flex items-start gap-2 text-sm text-slate-500 bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 mb-6">
                     <ShieldCheck className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
                     <p>
-                      Доколку сакате на вашиот профил да стои ознаката <strong className="text-slate-700">„Верифициран профил"</strong>, потребно е да ги внесете ЕДБ и ЕМБС. Тие служат само за проверка на субјектот и <strong className="text-slate-700">нема да бидат јавно прикажани</strong>. Полињата се незадолжителни.
+                      Доколку сакате вашиот профил да ја добие ознаката „Верифициран профил“, внесете ЕДБ и ЕМБС. Овие податоци се користат исклучиво за проверка на деловниот статус и нема да бидат јавно прикажани. Полињата се незадолжителни.
                     </p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -298,24 +298,24 @@ export default function SubmitSubject() {
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-xl font-bold text-slate-900 mb-6 tracking-tight">Што добивате во водичот?</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-6 tracking-tight">Што добивате со профилот?</h3>
                 <div className="space-y-6">
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
                       <TrendingUp className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 mb-1">Огромна видливост</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">Вашиот бизнис е изложен пред илјадниците дневни читатели на порталот Gostivarpress.mk.</p>
+                      <h4 className="font-bold text-slate-900 mb-1">Поголема локална видливост</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed">Вашиот бизнис ќе биде прикажан во деловниот директориум.</p>
                     </div>
                   </div>
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center flex-shrink-0">
-                      <Users className="w-5 h-5" />
+                      <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 mb-1">Директни контакти</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">Потенцијалните клиенти лесно ве наоѓаат и веднаш можат да ве контактираат.</p>
+                      <h4 className="font-bold text-slate-900 mb-1">Јасни контакт-информации</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed">Телефон, адреса, работно време, мапа, опис на услуги и линкови.</p>
                     </div>
                   </div>
                   <div className="flex gap-4">
@@ -323,8 +323,17 @@ export default function SubmitSubject() {
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 mb-1">Доверба и промоција</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">Професионално претставување кое гради авторитет преку доверлив медиумски бренд.</p>
+                      <h4 className="font-bold text-slate-900 mb-1">Верифициран профил</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed">Ознака дека основните деловни и контакт-податоци се проверени.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 mb-1">Поголема доверба</h4>
+                      <p className="text-sm text-slate-600 leading-relaxed">Профилот изгледа професионално и е поврзан со локален медиум.</p>
                     </div>
                   </div>
                 </div>

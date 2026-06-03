@@ -46,25 +46,25 @@ export default function VerificationInfo({ profile }: VerificationInfoProps) {
       <div className="space-y-3 text-sm text-slate-700">
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Статус:</span>
-          <span>{statusLabel}.</span>
+          <span>{statusLabel}</span>
         </div>
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Деловен статус:</span>
-          <span>Регистриран и активен деловен субјект.</span>
+          <span>Регистриран и активен деловен субјект</span>
         </div>
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Последна проверка:</span>
-          <span>{checkedDate}.</span>
+          <span>{checkedDate}</span>
         </div>
         <div className="flex gap-2">
           <span className="font-semibold text-slate-500 w-40 shrink-0">Извор:</span>
-          <span>Доставени податоци од субјектот и јавно достапни информации.</span>
+          <span>Доставени податоци од субјектот и јавно достапни информации</span>
         </div>
       </div>
 
       <div className="mt-5 pt-4 border-t border-slate-100 flex items-start gap-2 text-xs text-slate-500">
         <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-        <p>Ознаката значи дека се проверени основните идентификациски, деловни и контакт-податоци, вклучително и јавно достапни евиденции на Централниот регистар.</p>
+        <p>Напомена: Ознаката „Верифициран профил“ значи дека се проверени основните идентификациски, деловни и контакт-податоци.</p>
       </div>
     </div>
   );
