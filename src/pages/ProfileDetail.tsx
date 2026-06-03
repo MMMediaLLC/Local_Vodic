@@ -1,4 +1,4 @@
-﻿import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useData } from '../lib/DataContext';
 import { ArrowLeft, Phone, MapPin, Mail, Clock, Globe, Facebook, Share2, Instagram } from 'lucide-react';
 import FeaturedProfileCard from '../components/FeaturedProfileCard';
@@ -120,7 +120,7 @@ export default function ProfileDetail() {
   // Додека податоците се вчитуваат — прикажи loading наместо 404 (спречува трепкање при освежување)
   if (!profile && isLoading) {
     return (
-      <div className="bg-slate-50 min-h-screen flex items-center justify-center py-24">
+      <div className="flex items-center justify-center py-24">
         <div className="w-8 h-8 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin" />
       </div>
     );
@@ -128,7 +128,7 @@ export default function ProfileDetail() {
 
   if (!profile) {
     return (
-      <div className="bg-slate-50 min-h-screen py-24 px-4 text-center">
+      <div className="py-24 px-4 text-center">
         <h1 className="text-3xl font-bold text-slate-900 mb-4">Профилот не е пронајден.</h1>
         <p className="text-slate-600 mb-8 max-w-md mx-auto">Се извинуваме, но профилот кој го барате не постои или е отстранет.</p>
         <Link to="/" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
@@ -171,7 +171,7 @@ export default function ProfileDetail() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-6 sm:pb-16">
+    <div className="pb-6 sm:pb-8">
       <LocalBusinessJsonLd profile={profile} />
 
       {/* Breadcrumb */}

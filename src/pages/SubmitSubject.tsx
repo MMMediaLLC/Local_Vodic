@@ -88,7 +88,7 @@ export default function SubmitSubject() {
 
   if (isSubmitted) {
     return (
-      <div className="bg-slate-50 min-h-screen pt-16 pb-24 flex items-center justify-center px-4">
+      <div className="py-16 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-slate-200 text-center shadow-lg shadow-slate-200/50">
           <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10" />
@@ -106,7 +106,7 @@ export default function SubmitSubject() {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24">
+    <div className="pb-10">
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center">
           <Link to="/" className="text-slate-500 hover:text-blue-600 flex items-center gap-2 text-sm font-medium transition-colors">
