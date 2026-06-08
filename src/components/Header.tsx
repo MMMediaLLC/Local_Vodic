@@ -14,7 +14,7 @@ export default function Header() {
         <img
           src="https://img.gostivarpress.mk/i/6016d1ad-638b-4041-86a3-05983fc791c2.png"
           alt="GPRESS Локален водич"
-          className="hidden sm:block w-full h-auto max-h-[80px] object-cover object-center"
+          className="hidden sm:block w-full h-auto"
         />
       </Link>
     </header>
