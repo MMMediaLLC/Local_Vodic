@@ -5,7 +5,7 @@ import FeaturedProfileCard from '../components/FeaturedProfileCard';
 import SafeImage from '../components/SafeImage';
 import { useData } from '../lib/DataContext';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Search, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { usePageMeta } from '../lib/usePageMeta';
 
@@ -45,29 +45,9 @@ export default function Home() {
 
   return (
     <div className="bg-slate-50 min-h-screen pb-0 sm:pb-8">
-      <HeroSection />
+      <HeroSection search={search} setSearch={setSearch} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
-
-        {/* Search bar */}
-        <div className="relative max-w-xl mx-auto mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-          <input
-            type="search"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Пребарај фирми, услуги, категории..."
-            className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 transition-all"
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
 
         {/* Loading — додека податоците се вчитуваат (спречува трепкање при освежување) */}
         {isLoading && (

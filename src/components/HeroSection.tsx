@@ -1,6 +1,34 @@
-export default function HeroSection() {
+import { Search, X } from 'lucide-react';
+
+interface HeroSectionProps {
+  search: string;
+  setSearch: (v: string) => void;
+}
+
+export default function HeroSection({ search, setSearch }: HeroSectionProps) {
   const description =
     'Најдете ги најдобрите локални компании, услуги, институции и продавници. Контакти, адреси, работно време и корисни информации од Гостивар и регионот.';
+
+  const searchBar = (
+    <div className="relative max-w-xl mx-auto mt-6">
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+      <input
+        type="search"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        placeholder="Пребарај фирми, услуги, категории..."
+        className="w-full pl-12 pr-10 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 transition-all"
+      />
+      {search && (
+        <button
+          onClick={() => setSearch('')}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -12,6 +40,7 @@ export default function HeroSection() {
         <p className="text-slate-600 text-[13px] font-medium leading-snug max-w-md mx-auto">
           {description}
         </p>
+        {searchBar}
       </section>
 
       {/* ── ДЕСКТОП — непроменето ── */}
@@ -29,6 +58,7 @@ export default function HeroSection() {
             <p className="text-xl text-slate-600 font-medium leading-snug max-w-4xl mx-auto">
               {description}
             </p>
+            {searchBar}
           </div>
         </div>
       </section>
