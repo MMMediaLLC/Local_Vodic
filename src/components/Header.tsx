@@ -12,9 +12,9 @@ export default function Header() {
         />
         {/* Десктоп */}
         <img
-          src="https://img.gostivarpress.mk/i/5c0199e2-917f-4e7c-8bd8-f90b263426d6.jpg"
+          src="https://img.gostivarpress.mk/i/6016d1ad-638b-4041-86a3-05983fc791c2.png"
           alt="GPRESS Локален водич"
-          className="hidden sm:block w-full h-auto"
+          className="hidden sm:block w-full h-auto max-h-[80px] object-cover object-center"
         />
       </Link>
     </header>
