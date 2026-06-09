@@ -141,7 +141,7 @@ export default function SubmitSubject() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Име на фирмa / субјект <span className="text-red-500">*</span></label>
-                      <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Автосервис Ибро" />
+                      <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-slate-400" placeholder="Пр: Автосервис Беса" />
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-slate-700 mb-2">Главна категорија <span className="text-red-500">*</span></label>
