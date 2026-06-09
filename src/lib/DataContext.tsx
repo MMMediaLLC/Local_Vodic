@@ -43,6 +43,7 @@ type DataContextType = DataState & {
   updateProfile: (profile: Profile) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
   approveProfile: (id: string) => Promise<void>;
+  refetch: () => Promise<void>;
   isLoading: boolean;
 };
 
@@ -70,24 +71,28 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('/api/data')
-      .then(res => res.json())
-      .then(fetchedData => {
-        if (fetchedData?.profiles?.length > 0) {
-          setData({
-            profiles:   (fetchedData.profiles as Profile[]).map(normalizeProfile),
-            categories: CONFIG_CATEGORIES, // секогаш од config (новите 10 категории)
-            locations:  mockLocations,     // засега само Гостивар
+  const fetchData = async () => {
+    try {
+      const res = await fetch('/api/data', { headers: authHeaders() });
+      const fetchedData = await res.json();
+      if (fetchedData?.profiles?.length > 0) {
+        setData({
+          profiles:   (fetchedData.profiles as Profile[]).map(normalizeProfile),
+          categories: CONFIG_CATEGORIES,
+          locations:  mockLocations,
+          contacts:   fetchedData.contacts?.length > 0 ? fetchedData.contacts : mockContacts,
+          articles:   fetchedData.articles?.length > 0 ? fetchedData.articles : mockArticles,
+        });
+      }
+    } catch (err) {
+      console.error('Failed to fetch data, using mock defaults:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-            contacts:   fetchedData.contacts?.length   > 0 ? fetchedData.contacts   : mockContacts,
-            articles:   fetchedData.articles?.length   > 0 ? fetchedData.articles   : mockArticles,
-          });
-        }
-        // If Supabase is empty the mock defaults remain — admin seeding will populate it
-      })
-      .catch(err => console.error('Failed to fetch data, using mock defaults:', err))
-      .finally(() => setIsLoading(false));
+  useEffect(() => {
+    fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -171,6 +176,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }));
   };
 
+  const refetch = async () => {
+    setIsLoading(true);
+    await fetchData();
+  };
+
   return (
     <DataContext.Provider value={{
       ...data,
@@ -179,6 +189,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       updateProfile,
       deleteProfile,
       approveProfile,
+      refetch,
       isLoading,
     }}>
       {children}

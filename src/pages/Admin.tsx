@@ -102,7 +102,7 @@ function AdminLogin({ onLogin }: { onLogin: (token: string) => void }) {
 
 // ---------- Main Admin Panel ----------
 export default function Admin() {
-  const { profiles, categories, addProfile, updateProfile, deleteProfile, approveProfile } = useData();
+  const { profiles, categories, addProfile, updateProfile, deleteProfile, approveProfile, refetch } = useData();
   const [token, setToken] = useState<string | null>(null);
   const [editingProfile, setEditingProfile] = useState<Profile | null>(null);
   const [formData, setFormData] = useState<Partial<Profile>>({});
@@ -127,8 +127,13 @@ export default function Admin() {
     setToken(null);
   };
 
+  const handleLogin = (t: string) => {
+    setToken(t);
+    refetch();
+  };
+
   if (!token) {
-    return <AdminLogin onLogin={setToken} />;
+    return <AdminLogin onLogin={handleLogin} />;
   }
 
   const sortByDate = (a: Profile, b: Profile) =>
