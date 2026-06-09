@@ -35,11 +35,13 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
             &copy; {new Date().getFullYear()} Gostivarpress.mk. Сите права се задржани.
           </p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
+          <div className="flex flex-wrap items-center gap-4">
+            <Link to="/privatnost" className="text-slate-400 hover:text-slate-600 text-sm transition-colors">Приватност</Link>
+            <Link to="/uslovi" className="text-slate-400 hover:text-slate-600 text-sm transition-colors">Услови</Link>
             <a href="https://www.facebook.com/gostivarpress" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">Facebook</a>
             <a href="https://www.instagram.com/gostivarpress" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-pink-500 transition-colors">Instagram</a>
           </div>
